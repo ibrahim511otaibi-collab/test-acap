@@ -3,91 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الجودة - مركز الفروانية</title>
+    <title>نظام الجودة المتكامل - مركز الفروانية</title>
     <style>
-        :root { --primary: #2d5a27; --accent: #a00438; --bg: #f8f9fa; --locked: #e9ecef; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); padding: 15px; margin: 0; }
-        .card { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 8px solid var(--primary); }
-        h2 { color: var(--primary); text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .section-title { background: #f0f4f0; padding: 10px; border-right: 5px solid var(--primary); margin: 25px 0 10px 0; font-weight: bold; }
-        .form-group { margin-bottom: 15px; }
+        :root { 
+            --auditor-color: #2d5a27; 
+            --manager-color: #0056b3;
+            --bg: #f4f7f6; 
+            --white: #ffffff;
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); padding: 20px; margin: 0; line-height: 1.6; }
+        .main-container { max-width: 850px; margin: auto; }
+        
+        /* تصميم البطاقات */
+        .section-card { 
+            background: var(--white); 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+            margin-bottom: 25px; 
+            border-right: 10px solid;
+        }
+        .auditor-section { border-right-color: var(--auditor-color); }
+        .manager-section { border-right-color: var(--manager-color); }
+
+        h2 { text-align: center; color: #333; margin-bottom: 30px; font-size: 1.8em; }
+        h3 { margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .auditor-section h3 { color: var(--auditor-color); }
+        .manager-section h3 { color: var(--manager-color); }
+
+        .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        input:disabled, textarea:disabled, select:disabled { background-color: var(--locked); color: #666; cursor: not-allowed; }
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        button { padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .btn-save { background: var(--primary); color: white; width: 100%; margin-top: 10px; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 14px; border: 2px solid #e1e1e1; border-radius: 10px; 
+            font-size: 16px; transition: 0.3s; box-sizing: border-box;
+        }
+        input:focus, textarea:focus { border-color: #aaa; outline: none; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+        
+        /* الأقفال للمسؤول */
+        .locked-input { background-color: #f8f9fa; color: #555; cursor: not-allowed; border: 1px dashed #ccc; }
+
+        /* خيارات مصدر الحالة */
+        .radio-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 12px; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee;
+        }
+        .radio-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .radio-item input { width: auto; cursor: pointer; }
+
+        /* الأزرار */
+        .btn { 
+            padding: 16px 25px; border: none; border-radius: 10px; cursor: pointer; 
+            font-weight: bold; font-size: 16px; transition: 0.3s; display: flex; 
+            align-items: center; justify-content: center; gap: 10px; width: 100%;
+        }
+        .btn-save-auditor { background: var(--auditor-color); color: white; margin-bottom: 10px; }
         .btn-whatsapp { background: #25D366; color: white; }
+        .btn-save-manager { background: var(--manager-color); color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
         .hidden { display: none; }
-        .status-msg { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; }
-        .radio-group { display: flex; flex-wrap: wrap; gap: 10px; background: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
-        .radio-item { display: flex; align-items: center; gap: 5px; }
-        .radio-item input { width: auto; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8em; color: white; }
+        .badge-risk { background: #dc3545; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>نظام إدارة عدم المطابقة (NCR)</h2>
-    <div id="modeMessage" class="status-msg hidden">وضع المسؤول: يرجى تعبئة التحليل والإجراء التصحيحي فقط.</div>
+<div class="main-container">
+    <h2>نظام إدارة عدم المطابقة (NCR) - مركز الفروانية</h2>
 
-    <div class="section-title">بيانات رصد الحالة (المدقق)</div>
-    
-    <div class="form-group">
-        <label>رقم الحالة:</label>
-        <input type="text" id="case_id" readonly style="background:#eee">
-    </div>
-
-    <div class="form-group">
-        <label>اسم المدقق:</label>
-        <input type="text" id="auditor_name" placeholder="أدخل اسمك">
-    </div>
-
-    <div class="form-group">
-        <label>مصدر الحالة:</label>
-        <div class="radio-group" id="source_group">
-            <label class="radio-item"><input type="radio" name="source" value="شكوى"> شكوى</label>
-            <label class="radio-item"><input type="radio" name="source" value="تدقيق داخلي"> تدقيق داخلي</label>
-            <label class="radio-item"><input type="radio" name="source" value="ملاحظة"> ملاحظة</label>
-            <label class="radio-item"><input type="radio" name="source" value="تحليل بيانات"> تحليل بيانات</label>
-            <label class="radio-item"><input type="radio" name="source" value="مصدر آخر"> مصدر آخر</label>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>مستوى الخطورة:</label>
-        <select id="risk_level">
-            <option value="منخفضة">منخفضة</option>
-            <option value="متوسطة">متوسطة</option>
-            <option value="عالية">عالية</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>وصف حالة عدم المطابقة:</label>
-        <textarea id="desc" rows="3" placeholder="اشرح الملاحظة بدقة..."></textarea>
-    </div>
-
-    <div id="managerSection">
-        <div class="section-title">تحليل وإجراء المسؤول (CAPA)</div>
+    <div id="auditorCard" class="section-card auditor-section">
+        <h3>📋 بيانات رصد الحالة (المدقق)</h3>
+        
         <div class="form-group">
-            <label>السبب الجذري (لماذا حصلت المشكلة؟):</label>
-            <textarea id="root_cause" rows="3" placeholder="تحليل السبب الرئيسي..."></textarea>
+            <label>رقم الحالة التسلسلي:</label>
+            <input type="text" id="case_id" class="locked-input" readonly>
         </div>
+
         <div class="form-group">
-            <label>الإجراء التصحيحي (لحل المشكلة نهائياً):</label>
-            <textarea id="action_plan" rows="3" placeholder="الخطوات المتخذة للتصحيح..."></textarea>
+            <label>اسم المدقق:</label>
+            <input type="text" id="auditor_name" placeholder="أدخل اسمك الثلاثي">
         </div>
+
         <div class="form-group">
-            <label>اسم المسؤول المعتمد:</label>
-            <input type="text" id="manager_name" placeholder="اسم رئيس القسم">
+            <label>مصدر الحالة:</label>
+            <div class="radio-grid" id="source_group">
+                <label class="radio-item"><input type="radio" name="source" value="شكوى"> شكوى</label>
+                <label class="radio-item"><input type="radio" name="source" value="تدقيق داخلي"> تدقيق داخلي</label>
+                <label class="radio-item"><input type="radio" name="source" value="ملاحظة"> ملاحظة</label>
+                <label class="radio-item"><input type="radio" name="source" value="تحليل بيانات"> تحليل بيانات</label>
+                <label class="radio-item"><input type="radio" name="source" value="مصدر آخر"> مصدر آخر</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>مستوى الخطورة:</label>
+            <select id="risk_level">
+                <option value="منخفضة">منخفضة</option>
+                <option value="متوسطة">متوسطة</option>
+                <option value="عالية">عالية</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>وصف تفصيلي لحالة عدم المطابقة:</label>
+            <textarea id="desc" rows="4" placeholder="اشرح ما تم رصده بدقة وفق المعايير..."></textarea>
+        </div>
+
+        <div id="auditorActionGroup">
+            <button class="btn btn-save-auditor" id="saveAuditorBtn" onclick="saveData('auditor')">
+                💾 حفظ الحالة في السجل الرئيسي
+            </button>
+            <button class="btn btn-whatsapp" onclick="notifyWhatsApp()">
+                📱 إرسال تكليف للمسؤول (WhatsApp)
+            </button>
         </div>
     </div>
 
-    <button class="btn-save" id="saveBtn" onclick="saveData()">حفظ البيانات في السجل</button>
-    
-    <div class="btn-group" id="auditorButtons">
-        <button class="btn-whatsapp" onclick="notifyWhatsApp()">إرسال تنبيه للمسؤول (واتساب)</button>
+    <div id="managerCard" class="section-card manager-section hidden">
+        <h3>🛠️ قسم الإجراء التصحيحي (المسؤول)</h3>
+        
+        <div class="form-group">
+            <label>السبب الجذري (تحليل لماذا حدثت المشكلة؟):</label>
+            <textarea id="root_cause" rows="4" placeholder="اكتب التحليل الفني للسبب الرئيسي..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>الإجراء التصحيحي (الخطة لمنع التكرار نهائياً):</label>
+            <textarea id="action_plan" rows="4" placeholder="اكتب الخطوات التي سيتم تنفيذها..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>اعتماد المسؤول المباشر للقسم:</label>
+            <input type="text" id="manager_name" placeholder="اسم رئيس القسم أو من ينوب عنه">
+        </div>
+
+        <button class="btn btn-save-manager" id="saveManagerBtn" onclick="saveData('manager')">
+            ✅ إرسال الرد النهائي للمدقق
+        </button>
     </div>
 </div>
 
@@ -99,31 +153,44 @@
         const id = urlParams.get('id');
         
         if (id) {
-            // وضع المسؤول
+            // وضع "المسؤول"
             document.getElementById('case_id').value = id;
             document.getElementById('desc').value = urlParams.get('desc');
             document.getElementById('risk_level').value = urlParams.get('risk');
             document.getElementById('auditor_name').value = urlParams.get('auditor');
             
-            // قفل الخانات
+            // تحديد الراديو الخاص بالمصدر (قراءة فقط)
+            const sourceVal = urlParams.get('source');
+            document.querySelectorAll('input[name="source"]').forEach(el => {
+                if(el.value === sourceVal) el.checked = true;
+                el.disabled = true;
+            });
+
+            // قفل كافة خانات المدقق
+            document.getElementById('desc').classList.add('locked-input');
             document.getElementById('desc').disabled = true;
             document.getElementById('risk_level').disabled = true;
             document.getElementById('auditor_name').disabled = true;
-            document.querySelectorAll('input[name="source"]').forEach(el => el.disabled = true);
             
-            document.getElementById('auditorButtons').classList.add('hidden');
-            document.getElementById('modeMessage').classList.remove('hidden');
+            // إخفاء أزرار المدقق وإظهار قسم المسؤول
+            document.getElementById('auditorActionGroup').classList.add('hidden');
+            document.getElementById('managerCard').classList.remove('hidden');
+            
+            // تمرير الشاشة لقسم المسؤول
+            setTimeout(() => document.getElementById('managerCard').scrollIntoView({behavior: "smooth"}), 500);
         } else {
-            // وضع المدقق: توليد رقم حالة
-            const dateStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '');
-            document.getElementById('case_id').value = "NCR-" + dateStr + "-" + Math.floor(Math.random() * 1000);
+            // وضع "المدقق"
+            const date = new Date();
+            const timestamp = date.getFullYear().toString().substr(-2) + (date.getMonth()+1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+            document.getElementById('case_id').value = "NCR-" + timestamp + "-" + Math.floor(Math.random() * 900 + 100);
         }
     };
 
-    function saveData() {
-        const btn = document.getElementById('saveBtn');
+    function saveData(type) {
+        const btnId = type === 'auditor' ? 'saveAuditorBtn' : 'saveManagerBtn';
+        const btn = document.getElementById(btnId);
         btn.disabled = true;
-        btn.innerText = "جاري الحفظ...";
+        btn.innerText = "جاري الاتصال بالسجل...";
 
         const selectedSource = document.querySelector('input[name="source"]:checked')?.value || "";
 
@@ -144,12 +211,12 @@
             body: JSON.stringify(data)
         })
         .then(() => {
-            alert("تمت العملية بنجاح!");
+            alert(type === 'auditor' ? "تم حفظ الحالة بنجاح. يمكنك الآن إرسال الواتساب." : "تم إرسال ردك بنجاح. شكراً لك.");
             btn.disabled = false;
-            btn.innerText = "حفظ البيانات في السجل";
+            btn.innerText = type === 'auditor' ? "💾 حفظ الحالة في السجل الرئيسي" : "✅ إرسال الرد النهائي للمدقق";
         })
         .catch(() => {
-            alert("خطأ في الاتصال");
+            alert("حدث خطأ في الشبكة، يرجى المحاولة مرة أخرى.");
             btn.disabled = false;
         });
     }
@@ -159,12 +226,14 @@
         const desc = document.getElementById('desc').value;
         const risk = document.getElementById('risk_level').value;
         const auditor = document.getElementById('auditor_name').value;
+        const source = document.querySelector('input[name="source"]:checked')?.value || "";
         const phone = "96566695443";
         
         const baseUrl = window.location.href.split('?')[0];
-        const smartUrl = `${baseUrl}?id=${id}&risk=${encodeURIComponent(risk)}&desc=${encodeURIComponent(desc)}&auditor=${encodeURIComponent(auditor)}`;
+        // تضمين المصدر في الرابط أيضاً
+        const smartUrl = `${baseUrl}?id=${id}&risk=${encodeURIComponent(risk)}&desc=${encodeURIComponent(desc)}&auditor=${encodeURIComponent(auditor)}&source=${encodeURIComponent(source)}`;
         
-        const message = `*تنبيه حالة عدم مطابقة جيدة*%0A---%0A*رقم الحالة:* ${id}%0A*الخطورة:* ${risk}%0A*الوصف:* ${desc}%0A---%0A*يرجى الرد بالسبب والإجراء عبر الرابط:*%0A${smartUrl}`;
+        const message = `*⚠️ تنبيه جودة - مركز الفروانية*%0A---%0A*رقم الحالة:* ${id}%0A*المصدر:* ${source}%0A*الخطورة:* ${risk}%0A*الوصف:* ${desc}%0A---%0A*يرجى تحليل السبب والرد عبر الرابط:*%0A${smartUrl}`;
         
         window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
     }
