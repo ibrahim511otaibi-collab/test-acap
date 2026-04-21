@@ -3,134 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الجودة - مركز الفروانية</title>
+    <title>نظام NCR - مركز الفروانية</title>
     <style>
-        :root { --main: #2d5a27; --sec: #0056b3; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); padding: 20px; color: #333; }
-        .box { max-width: 650px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        h2 { text-align: center; color: var(--main); border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; outline: none; transition: 0.3s; box-sizing: border-box; }
-        input:focus, textarea:focus { border-color: var(--main); }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-save { background: var(--main); color: #fff; }
-        .btn-wa { background: #25D366; color: #fff; }
-        .btn-manager { background: var(--sec); color: #fff; }
-        .locked { background-color: #f1f1f1 !important; color: #1a1a1a !important; cursor: not-allowed; font-weight: bold; border: 1px solid #ddd; }
+        :root { --primary: #2d5a27; --secondary: #0056b3; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); padding: 20px; direction: rtl; }
+        .container { max-width: 600px; margin: auto; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin-bottom: 20px; border-top: 8px solid var(--primary); }
+        .manager-border { border-top-color: var(--secondary); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #444; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; color: #000; }
+        /* تصميم الخانات المقفولة للمسؤول */
+        .locked { background-color: #eeeeee !important; color: #000000 !important; font-weight: bold; border: 1px solid #ccc !important; cursor: not-allowed; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn-save { background: var(--primary); }
+        .btn-wa { background: #25D366; }
+        .btn-manager { background: var(--secondary); }
         .hidden { display: none; }
-        .manager-section { margin-top: 30px; padding-top: 20px; border-top: 3px dashed #eee; }
+        h2 { text-align: center; color: #333; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h2>نظام عدم المطابقة (NCR)</h2>
+<div class="container">
+    <h2>نظام إدارة عدم المطابقة</h2>
 
-    <div class="form-group">
-        <label>رقم الحالة (ID):</label>
-        <input type="text" id="id" readonly class="locked">
+    <div id="auditorSection" class="card">
+        <div class="form-group">
+            <label>رقم الحالة:</label>
+            <input type="text" id="id" readonly class="locked">
+        </div>
+        <div class="form-group">
+            <label>اسم المدقق:</label>
+            <input type="text" id="auditor" placeholder="أدخل اسمك">
+        </div>
+        <div class="form-group">
+            <label>وصف الملاحظة:</label>
+            <textarea id="desc" rows="4" placeholder="اكتب تفاصيل الملاحظة هنا..."></textarea>
+        </div>
+        <div id="auditorActions">
+            <button class="btn btn-save" onclick="saveData('auditor')">💾 حفظ في السجل</button>
+            <button class="btn btn-wa" onclick="sendToWhatsApp()">📱 إرسال للمسؤول</button>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>اسم المدقق:</label>
-        <input type="text" id="auditor" placeholder="من قام بالتدقيق؟">
-    </div>
-
-    <div class="form-group">
-        <label>وصف عدم المطابقة:</label>
-        <textarea id="description" rows="4" placeholder="اكتب تفاصيل المشكلة هنا..."></textarea>
-    </div>
-
-    <div id="auditor_btns">
-        <button class="btn btn-save" onclick="saveToGoogle('auditor')">💾 حفظ البيانات</button>
-        <button class="btn btn-wa" onclick="shareWhatsApp()">📱 إرسال واتساب للمسؤول</button>
-    </div>
-
-    <div id="manager_section" class="hidden manager-section">
+    <div id="managerSection" class="card manager-border hidden">
         <h3>🛠️ رد المسؤول</h3>
         <div class="form-group">
-            <label>الإجراء المتخذ:</label>
+            <label>الإجراء التصحيحي المتخذ:</label>
             <textarea id="action" rows="3" placeholder="ماذا فعلت لحل المشكلة؟"></textarea>
         </div>
         <div class="form-group">
             <label>اسم المسؤول:</label>
-            <input type="text" id="manager_name" placeholder="اسمك الكريم">
+            <input type="text" id="managerName" placeholder="أدخل اسمك">
         </div>
-        <button class="btn btn-manager" onclick="saveToGoogle('manager')">✅ اعتماد وتحديث السجل</button>
+        <button class="btn btn-manager" onclick="saveData('manager')">✅ اعتماد الرد وتحديث الشيت</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQzvwODnfD7Syz-i1htjZDU36zcFhbJCN0lN69fM5Hij-2kwr-BVi_vbhkx9LQ7_Bu/exec";
+    // رابط السكربت الخاص بك
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwQzvwODnfD7Syz-i1htjZDU36zcFhbJCN0lN69fM5Hij-2kwr-BVi_vbhkx9LQ7_Bu/exec";
 
-    // 1. أهم وظيفة: قفل البيانات وسحبها للمسؤول
+    // --- وظيفة التشغيل التلقائي عند فتح الصفحة ---
     window.onload = function() {
-        const params = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(window.location.search);
         
-        // إذا كان الرابط يحتوي على id، يعني المسؤول هو اللي فاتحه
-        if (params.has('id')) {
-            console.log("تم فتح الرابط من قبل المسؤول");
+        // فحص: هل الرابط يحتوي على id؟ (يعني مسؤول)
+        if (urlParams.has('id')) {
+            console.log("تم التعرف على وضع المسؤول");
 
-            // سحب البيانات وتعبئتها
-            document.getElementById('id').value = params.get('id');
-            document.getElementById('auditor').value = decodeURIComponent(params.get('aud') || "");
-            document.getElementById('description').value = decodeURIComponent(params.get('dsc') || "");
+            // 1. سحب البيانات من الرابط وتعبئتها
+            document.getElementById('id').value = urlParams.get('id');
+            document.getElementById('auditor').value = decodeURIComponent(urlParams.get('aud') || "");
+            document.getElementById('desc').value = decodeURIComponent(urlParams.get('dsc') || "");
 
-            // قفل الخانات عشان ما يغيرها المسؤول
+            // 2. قفل خانات المدقق (عشان المسؤول ما يغيرها)
             document.getElementById('auditor').readOnly = true;
             document.getElementById('auditor').classList.add('locked');
-            document.getElementById('description').readOnly = true;
-            document.getElementById('description').classList.add('locked');
+            document.getElementById('desc').readOnly = true;
+            document.getElementById('desc').classList.add('locked');
 
-            // إظهار قسم المسؤول وإخفاء أزرار المدقق
-            document.getElementById('manager_section').classList.remove('hidden');
-            document.getElementById('auditor_btns').classList.add('hidden');
+            // 3. تبديل الواجهة (إظهار قسم المسؤول)
+            document.getElementById('managerSection').classList.remove('hidden');
+            document.getElementById('auditorActions').classList.add('hidden');
         } else {
-            // إذا مدقق، ننشئ له رقم عشوائي
+            // وضع المدقق: نولد رقم جديد
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     };
 
-    // 2. وظيفة إرسال الواتساب
-    function shareWhatsApp() {
+    // --- وظيفة إرسال الواتساب ---
+    function sendToWhatsApp() {
         const id = document.getElementById('id').value;
         const aud = document.getElementById('auditor').value;
-        const dsc = document.getElementById('description').value;
+        const dsc = document.getElementById('desc').value;
 
-        if(!aud || !dsc) { alert("يرجى تعبئة الاسم والوصف"); return; }
+        if(!aud || !dsc) { alert("أكمل البيانات أولاً"); return; }
 
-        // بناء الرابط المباشر
-        const currentUrl = window.location.origin + window.location.pathname;
-        const finalLink = `${currentUrl}?id=${id}&aud=${encodeURIComponent(aud)}&dsc=${encodeURIComponent(dsc)}`;
+        // بناء رابط المسؤول (الرابط الحالي + البيانات)
+        const baseUrl = window.location.href.split('?')[0];
+        const finalLink = `${baseUrl}?id=${id}&aud=${encodeURIComponent(aud)}&dsc=${encodeURIComponent(dsc)}`;
 
-        const message = `*إشعار حالة جودة*%0Aرقم الحالة: ${id}%0Aالمدقق: ${aud}%0Aالوصف: ${dsc}%0A---%0A*رابط الرد:*%0A${finalLink}`;
+        const msg = `*إشعار عدم مطابقة جديد*%0Aرقم الحالة: ${id}%0Aالمدقق: ${aud}%0Aالوصف: ${dsc}%0A---%0A*رابط الرد للمسؤول:*%0A${finalLink}`;
         
-        window.open(`https://wa.me/96566695443?text=${message}`, '_blank');
+        window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
     }
 
-    // 3. وظيفة الحفظ في قوقل شيت
-    function saveToGoogle(mode) {
+    // --- وظيفة الحفظ في قوقل شيت ---
+    function saveData(mode) {
         const btn = event.target;
         btn.disabled = true;
         btn.innerText = "جاري الحفظ...";
 
-        const payload = {
+        const data = {
             id: document.getElementById('id').value,
             auditor: document.getElementById('auditor').value,
-            desc: document.getElementById('description').value,
+            desc: document.getElementById('desc').value,
             action: document.getElementById('action') ? document.getElementById('action').value : "",
-            manager: document.getElementById('manager_name') ? document.getElementById('manager_name').value : ""
+            manager: document.getElementById('managerName') ? document.getElementById('managerName').value : ""
         };
 
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
+        fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
         .then(() => {
             alert("تم الحفظ بنجاح!");
             btn.disabled = false;
-            btn.innerText = "تم الحفظ ✅";
+            btn.innerText = (mode === 'auditor') ? "💾 حفظ في السجل" : "✅ اعتماد الرد";
         })
         .catch(() => {
-            alert("حدث خطأ في الاتصال");
+            alert("خطأ في الاتصال");
             btn.disabled = false;
         });
     }
