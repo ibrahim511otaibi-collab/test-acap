@@ -89,34 +89,36 @@
 
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('id')) {
-            // وضع المسؤول: جلب البيانات من الرابط
-            document.getElementById('id').value = urlParams.get('id');
-            document.getElementById('auditor').value = urlParams.get('aud');
-            document.getElementById('source').value = urlParams.get('src');
-            document.getElementById('risk').value = urlParams.get('rsk');
-            
-            // إصلاح الربط هنا لضمان ظهور الوصف
-            const descValue = urlParams.get('desc');
-            if(descValue) {
-                document.getElementById('desc').value = descValue;
-            }
+        
+        // التحقق إذا كان الرابط يحتوي على ID (يعني المسؤول هو اللي فتحه)
+        if (urlParams.has('id')) {
+            // تعبئة البيانات من الرابط إلى الخانات مباشرة
+            // استخدمنا نفس الأسماء الموجودة في الرابط (id, auditor, source, risk, desc)
+            document.getElementById('id').value = urlParams.get('id') || "";
+            document.getElementById('auditor').value = urlParams.get('auditor') || "";
+            document.getElementById('source').value = urlParams.get('source') || "";
+            document.getElementById('risk').value = urlParams.get('risk') || "";
+            document.getElementById('desc').value = urlParams.get('desc') || "";
 
-            // قفل الحقول
+            // قفل خانات المدقق عشان المسؤول ما يعدل عليها
             ['auditor', 'source', 'risk', 'desc'].forEach(f => {
-                document.getElementById(f).disabled = true;
-                document.getElementById(f).classList.add('locked');
+                const el = document.getElementById(f);
+                el.disabled = true;
+                el.classList.add('locked');
             });
 
+            // إظهار قسم المسؤول وإخفاء أزرار المدقق
             document.getElementById('auditorButtons').classList.add('hidden');
             document.getElementById('managerBox').classList.remove('hidden');
         } else {
+            // وضع المدقق العادي: توليد رقم عشوائي
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     };
 
     function sendToGoogle(mode) {
         const btn = event.target;
+        const originalText = btn.innerText;
         btn.disabled = true;
         btn.innerText = "جاري الحفظ...";
 
@@ -133,31 +135,33 @@
 
         fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
         .then(() => {
-            alert(mode === 'auditor' ? "تم حفظ الحالة الجديدة في الشيت!" : "تم تحديث السجل بالرد النهائي!");
+            alert(mode === 'auditor' ? "تم حفظ الحالة بنجاح!" : "تم تحديث السجل بالرد النهائي!");
             btn.disabled = false;
-            btn.innerText = mode === 'auditor' ? "💾 حفظ البيانات في الشيت" : "✅ إرسال الرد وتحديث السطر";
+            btn.innerText = originalText;
         })
         .catch(() => {
-            alert("حدث خطأ في الاتصال.");
+            alert("خطأ في الاتصال بالسكربت.");
             btn.disabled = false;
+            btn.innerText = originalText;
         });
     }
 
     function generateWALink() {
-        const d = {
+        // جمع القيم الحالية من الخانات
+        const data = {
             id: document.getElementById('id').value,
-            aud: document.getElementById('auditor').value,
-            src: document.getElementById('source').value,
-            rsk: document.getElementById('risk').value,
-            desc: document.getElementById('desc').value 
+            auditor: document.getElementById('auditor').value,
+            source: document.getElementById('source').value,
+            risk: document.getElementById('risk').value,
+            desc: document.getElementById('desc').value
         };
         
         const baseUrl = window.location.origin + window.location.pathname;
         
-        // توحيد اسم المتغير في الرابط ليكون desc
-        const fullUrl = `${baseUrl}?id=${d.id}&aud=${encodeURIComponent(d.aud)}&src=${encodeURIComponent(d.src)}&rsk=${encodeURIComponent(d.rsk)}&desc=${encodeURIComponent(d.desc)}`;
+        // صناعة الرابط: تأكدنا أن الأسماء هنا (id, auditor...) تطابق تماماً الأسماء في window.onload فوق
+        const fullUrl = `${baseUrl}?id=${encodeURIComponent(data.id)}&auditor=${encodeURIComponent(data.auditor)}&source=${encodeURIComponent(data.source)}&risk=${encodeURIComponent(data.risk)}&desc=${encodeURIComponent(data.desc)}`;
         
-        const msg = `*تنبيه جودة (NCR)*%0Aرقم الحالة: ${d.id}%0Aالمدقق: ${d.aud}%0Aالوصف: ${d.desc}%0A---%0A*يرجى الرد عبر الرابط التالي:*%0A${fullUrl}`;
+        const msg = `*تنبيه حالة عدم مطابقة*%0A---%0A*رقم الحالة:* ${data.id}%0A*المدقق:* ${data.auditor}%0A*الوصف:* ${data.desc}%0A---%0A*يرجى الرد عبر الرابط:*%0A${fullUrl}`;
         
         window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
     }
