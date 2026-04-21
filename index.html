@@ -85,30 +85,32 @@
 </div>
 
 <script>
-    // ضع رابط السكربت الخاص بك هنا
     const scriptURL = "https://script.google.com/macros/s/AKfycbwQzvwODnfD7Syz-i1htjZDU36zcFhbJCN0lN69fM5Hij-2kwr-BVi_vbhkx9LQ7_Bu/exec";
 
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('id')) {
-            // نحن في وضع "المسؤول" - تعبئة البيانات من الرابط
+            // وضع المسؤول: جلب البيانات من الرابط
             document.getElementById('id').value = urlParams.get('id');
             document.getElementById('auditor').value = urlParams.get('aud');
             document.getElementById('source').value = urlParams.get('src');
             document.getElementById('risk').value = urlParams.get('rsk');
-            document.getElementById('desc').value = urlParams.get('dsc');
+            
+            // إصلاح الربط هنا لضمان ظهور الوصف
+            const descValue = urlParams.get('desc');
+            if(descValue) {
+                document.getElementById('desc').value = descValue;
+            }
 
-            // قفل حقول المدقق
+            // قفل الحقول
             ['auditor', 'source', 'risk', 'desc'].forEach(f => {
                 document.getElementById(f).disabled = true;
                 document.getElementById(f).classList.add('locked');
             });
 
-            // تبديل الأزرار والبطاقات
             document.getElementById('auditorButtons').classList.add('hidden');
             document.getElementById('managerBox').classList.remove('hidden');
         } else {
-            // نحن في وضع "المدقق" - إنشاء رقم جديد
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     };
@@ -118,16 +120,15 @@
         btn.disabled = true;
         btn.innerText = "جاري الحفظ...";
 
-        // تجهيز البيانات بنفس المسميات التي ينتظرها السكربت (Case Sensitive)
         const payload = {
             id: document.getElementById('id').value,
             auditor: document.getElementById('auditor').value,
             source: document.getElementById('source').value,
             risk: document.getElementById('risk').value,
             desc: document.getElementById('desc').value,
-            rootCause: document.getElementById('rootCause').value, // مطابق للسكربت
-            action: document.getElementById('action').value,       // مطابق للسكربت
-            manager: document.getElementById('manager').value      // مطابق للسكربت
+            rootCause: document.getElementById('rootCause').value,
+            action: document.getElementById('action').value,
+            manager: document.getElementById('manager').value
         };
 
         fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
@@ -137,7 +138,7 @@
             btn.innerText = mode === 'auditor' ? "💾 حفظ البيانات في الشيت" : "✅ إرسال الرد وتحديث السطر";
         })
         .catch(() => {
-            alert("حدث خطأ في الاتصال، تأكد من إعدادات النشر في السكربت.");
+            alert("حدث خطأ في الاتصال.");
             btn.disabled = false;
         });
     }
@@ -148,14 +149,15 @@
             aud: document.getElementById('auditor').value,
             src: document.getElementById('source').value,
             rsk: document.getElementById('risk').value,
-            dsc: document.getElementById('desc').value // تم التعديل هنا لضمان قراءة الوصف
+            desc: document.getElementById('desc').value 
         };
         
         const baseUrl = window.location.origin + window.location.pathname;
-        // إنشاء رابط يحتوي على كل البيانات لفتحها عند المسؤول
-        const fullUrl = `${baseUrl}?id=${d.id}&aud=${encodeURIComponent(d.aud)}&src=${encodeURIComponent(d.src)}&rsk=${encodeURIComponent(d.rsk)}&dsc=${encodeURIComponent(d.dsc)}`;
         
-        const msg = `*تنبيه جودة (NCR)*%0Aرقم الحالة: ${d.id}%0Aالمدقق: ${d.aud}%0Aالوصف: ${d.dsc}%0A---%0A*يرجى الرد عبر الرابط التالي:*%0A${fullUrl}`;
+        // توحيد اسم المتغير في الرابط ليكون desc
+        const fullUrl = `${baseUrl}?id=${d.id}&aud=${encodeURIComponent(d.aud)}&src=${encodeURIComponent(d.src)}&rsk=${encodeURIComponent(d.rsk)}&desc=${encodeURIComponent(d.desc)}`;
+        
+        const msg = `*تنبيه جودة (NCR)*%0Aرقم الحالة: ${d.id}%0Aالمدقق: ${d.aud}%0Aالوصف: ${d.desc}%0A---%0A*يرجى الرد عبر الرابط التالي:*%0A${fullUrl}`;
         
         window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
     }
