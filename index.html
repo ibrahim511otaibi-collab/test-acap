@@ -47,7 +47,6 @@
 <div class="container">
     <h2>نظام إدارة عدم المطابقة (NCR)</h2>
 
-    <!-- شاشة التحميل للمسؤول -->
     <div id="loadingScreen">
         ⏳ جاري تحميل بيانات الحالة...
     </div>
@@ -129,6 +128,7 @@
 
 <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbyIXvbs9EHHsrt7WF8L5dAprsqg6vzFSgRzO5GiGQxFJanwK_ItO-gxhchsmznGEcWs/exec";
+    const siteURL = "https://ibrahim511otaibi-collab.github.io/QualityFarwaniya/";
 
     function getParam(name) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -139,24 +139,20 @@
         const idVal = getParam('id');
 
         if (idVal) {
-            // ✅ وضع المسؤول: اخفي كل شي وظهر شاشة التحميل
             document.getElementById('auditorBox').classList.add('hidden');
             document.getElementById('loadingScreen').style.display = 'block';
 
             try {
-                // ✅ جيب البيانات من Google Sheet عن طريق رقم الحالة فقط
                 const response = await fetch(`${scriptURL}?id=${idVal}`);
                 const data = await response.json();
 
                 if (data && data.id) {
-                    // عبي البيانات في حقول العرض المقفولة
                     document.getElementById('idDisplay').value      = data.id       || "";
                     document.getElementById('auditorDisplay').value = data.auditor  || "";
                     document.getElementById('sourceDisplay').value  = data.source   || "";
                     document.getElementById('riskDisplay').value    = data.risk     || "";
                     document.getElementById('descDisplay').value    = data.desc     || "";
 
-                    // أخفي شاشة التحميل وظهر صندوق المسؤول
                     document.getElementById('loadingScreen').style.display = 'none';
                     document.getElementById('managerBox').classList.remove('hidden');
                 } else {
@@ -168,14 +164,12 @@
             }
 
         } else {
-            // وضع المدقق: إنشاء رقم حالة جديد عشوائي
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     }
 
     window.addEventListener('DOMContentLoaded', initPage);
 
-    // ✅ دمج الحفظ وإرسال الواتساب في زر واحد
     async function saveAndSendWA() {
         const id  = document.getElementById('id').value;
         const aud = document.getElementById('auditor').value;
@@ -198,7 +192,6 @@
         };
 
         try {
-            // 1️⃣ أولاً: احفظ البيانات في الشيت
             await fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -207,24 +200,21 @@
                 body: JSON.stringify(payload)
             });
 
-            btn.innerText = "⏳ جاري إرسال الواتساب...";
+            btn.innerText = "⏳ جاري توجيهك للواتساب...";
 
-            // 2️⃣ ثانياً: بني رابط قصير يحتوي على رقم الحالة فقط
-            const cleanUrl = window.location.origin + window.location.pathname;
-            const shortPageUrl = `${cleanUrl}?id=${id}`;
-
-            // 3️⃣ ثالثاً: أرسل الواتساب بالرابط القصير
+            // استخدام الرابط الثابت للموقع لضمان الدقة
+            const shortPageUrl = `${siteURL}?id=${id}`;
             const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${shortPageUrl}`;
-            window.open(`https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`, '_blank');
+            
+            // التعديل الجوهري للهواتف: استخدام window.location.href بدلاً من window.open
+            window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
 
-            alert("تم حفظ الحالة بنجاح وتم فتح الواتساب!");
         } catch (err) {
             console.error(err);
             alert("حدث خطأ أثناء الحفظ. حاول مرة أخرى.");
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ وإرسال واتساب للمسؤول";
         }
-
-        btn.disabled = false;
-        btn.innerText = "💾 حفظ وإرسال واتساب للمسؤول";
     }
 
     function sendToGoogle(mode) {
