@@ -71,7 +71,7 @@
         </div>
         <div id="auditorButtons">
             <button class="btn btn-save" onclick="sendToGoogle('auditor')">💾 حفظ البيانات في الشيت</button>
-            <button class="btn btn-wa" onclick="generateWALink()">📱 إرسال واتساب للمسؤول</button>
+            <button id="btnWA" class="btn btn-wa" onclick="generateWALink()">📱 إرسال واتساب للمسؤول</button>
         </div>
     </div>
 
@@ -154,7 +154,8 @@
     // تشغيل الدالة عند تحميل الصفحة مباشرة لضمان قراءة الرابط في سفاري
     window.addEventListener('DOMContentLoaded', initPage);
 
-    function generateWALink() {
+    // ✅ الإضافة الجديدة: اختصار الرابط الطويل عبر خدمة is.gd المجانية
+    async function generateWALink() {
         const id = document.getElementById('id').value;
         const aud = document.getElementById('auditor').value;
         const src = document.getElementById('source').value;
@@ -162,15 +163,38 @@
         const dsc = document.getElementById('desc').value;
 
         const cleanUrl = window.location.origin + window.location.pathname;
-        
-        // ✅ بناء الرابط بدون تشفير مسبق للعربية (سيتم التشفير الكامل لاحقاً)
         const params = `?id=${id}&aud=${aud}&src=${src}&rsk=${rsk}&dsc=${dsc}`;
         const fullUrl = cleanUrl + params;
 
-        // ✅ الإصلاح الجوهري: بناء نص الرسالة كاملاً ثم تشفيره دفعة واحدة
-        // السبب: الرابط يحتوي على رموز & و ? التي كانت تكسر رابط wa.me
-        const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${fullUrl}`;
-        
+        // تغيير نص الزر لإظهار حالة التحميل
+        const btn = document.getElementById('btnWA');
+        btn.disabled = true;
+        btn.innerText = "⏳ جاري تقصير الرابط...";
+
+        let linkToSend = fullUrl; // الرابط الاحتياطي في حال فشل الاختصار
+
+        try {
+            // استدعاء خدمة is.gd لاختصار الرابط
+            const response = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(fullUrl)}`);
+            if (response.ok) {
+                const shortUrl = await response.text();
+                // التحقق أن الرد هو رابط حقيقي وليس رسالة خطأ
+                if (shortUrl.startsWith('http')) {
+                    linkToSend = shortUrl.trim();
+                }
+            }
+        } catch (err) {
+            // في حال فشل الاتصال بخدمة الاختصار، يُستخدم الرابط الأصلي
+            console.warn("تعذّر اختصار الرابط، سيُستخدم الرابط الأصلي:", err);
+        }
+
+        // إعادة الزر لحالته الطبيعية
+        btn.disabled = false;
+        btn.innerText = "📱 إرسال واتساب للمسؤول";
+
+        // بناء نص الرسالة مع الرابط المختصر (أو الأصلي عند الفشل)
+        const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${linkToSend}`;
+
         window.open(`https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`, '_blank');
     }
 
