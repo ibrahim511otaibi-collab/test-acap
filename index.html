@@ -112,9 +112,21 @@
             // 1. تعبئة البيانات من الرابط إلى الخانات
             document.getElementById('id').value = idVal;
             document.getElementById('auditor').value = getParam('aud') ? decodeURIComponent(getParam('aud')) : "";
-            document.getElementById('source').value = getParam('src') ? decodeURIComponent(getParam('src')) : "شكوى";
-            document.getElementById('risk').value = getParam('rsk') ? decodeURIComponent(getParam('rsk')) : "منخفضة";
             document.getElementById('desc').value = getParam('dsc') ? decodeURIComponent(getParam('dsc')) : "";
+
+            // ✅ إصلاح SELECT: البحث عن الـ option المطابق وتحديده بدلاً من تعيين .value مباشرة
+            const srcVal = getParam('src') ? decodeURIComponent(getParam('src')) : "";
+            const rskVal = getParam('rsk') ? decodeURIComponent(getParam('rsk')) : "";
+
+            const sourceEl = document.getElementById('source');
+            const riskEl = document.getElementById('risk');
+
+            Array.from(sourceEl.options).forEach(opt => {
+                if (opt.value === srcVal) opt.selected = true;
+            });
+            Array.from(riskEl.options).forEach(opt => {
+                if (opt.value === rskVal) opt.selected = true;
+            });
 
             // 2. إخفاء أزرار المدقق وإظهار صندوق رد المسؤول
             document.getElementById('auditorButtons').classList.add('hidden');
