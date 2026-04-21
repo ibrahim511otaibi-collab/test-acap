@@ -13,14 +13,12 @@
         .manager-card { border-right-color: var(--manager-color); }
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        /* تعديل وضوح النص في الخانات المقفولة */
-        .locked { background-color: #f0f0f0 !important; cursor: not-allowed; border: 1px dashed #ccc; color: #000 !important; opacity: 1 !important; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.3s; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; color: #000 !important; }
+        .locked { background-color: #f0f0f0 !important; cursor: not-allowed; border: 1px solid #ccc !important; color: #000 !important; font-weight: bold; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
         .btn-save { background: var(--auditor-color); }
         .btn-wa { background: #25D366; }
         .btn-reply { background: var(--manager-color); }
-        .btn:hover { opacity: 0.8; }
         .hidden { display: none; }
         h2, h3 { text-align: center; color: #444; }
     </style>
@@ -71,15 +69,15 @@
         <h3>🛠️ رد الإدارة والمسؤول</h3>
         <div class="form-group">
             <label>السبب الجذري (Root Cause):</label>
-            <textarea id="rootCause" rows="3" placeholder="لماذا حدثت المشكلة؟"></textarea>
+            <textarea id="rootCause" rows="3"></textarea>
         </div>
         <div class="form-group">
             <label>الإجراء التصحيحي (Action):</label>
-            <textarea id="action" rows="3" placeholder="ما هو الإجراء المتخذ؟"></textarea>
+            <textarea id="action" rows="3"></textarea>
         </div>
         <div class="form-group">
             <label>اسم المسؤول المعتمد:</label>
-            <input type="text" id="manager" placeholder="اسم المسؤول">
+            <input type="text" id="manager">
         </div>
         <button class="btn btn-reply" onclick="sendToGoogle('manager')">✅ إرسال الرد وتحديث السطر</button>
     </div>
@@ -88,62 +86,67 @@
 <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbwQzvwODnfD7Syz-i1htjZDU36zcFhbJCN0lN69fM5Hij-2kwr-BVi_vbhkx9LQ7_Bu/exec";
 
-    // دالة سحب البيانات من الرابط (المسؤولة عن حل مشكلتنا)
-    function fillData() {
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        // إذا كان الرابط يحتوي على ID، يعني هذا المسؤول
-        if (urlParams.has('id')) {
-            // سحب البيانات مع فك تشفير اللغة العربية (decodeURIComponent)
-            document.getElementById('id').value = urlParams.get('id') || "";
-            document.getElementById('auditor').value = decodeURIComponent(urlParams.get('aud') || "");
-            document.getElementById('source').value = decodeURIComponent(urlParams.get('src') || "");
-            document.getElementById('risk').value = decodeURIComponent(urlParams.get('rsk') || "");
-            document.getElementById('desc').value = decodeURIComponent(urlParams.get('dsc') || "");
+    // دالة بديلة وقوية جداً لسحب البيانات يدوياً
+    function getParam(name) {
+        const url = window.location.href;
+        const nameClean = name.replace(/[\[\]]/g, '\\$&');
+        const regex = new RegExp('[?&]' + nameClean + '(=([^&#]*)|&|#|$)');
+        const results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
 
-            // قفل الحقول عشان المسؤول ما يعدل على كلام المدقق
+    function initPage() {
+        const idVal = getParam('id');
+        
+        if (idVal) {
+            console.log("وضع المسؤول مفعل..");
+            // تعبئة البيانات يدوياً
+            document.getElementById('id').value = idVal;
+            document.getElementById('auditor').value = getParam('aud') || "";
+            document.getElementById('source').value = getParam('src') || "";
+            document.getElementById('risk').value = getParam('rsk') || "";
+            document.getElementById('desc').value = getParam('dsc') || "";
+
+            // إظهار واجهة المسؤول
+            document.getElementById('auditorButtons').classList.add('hidden');
+            document.getElementById('managerBox').classList.remove('hidden');
+
+            // قفل حقول المدقق مع ضمان وضوح اللون
             ['auditor', 'source', 'risk', 'desc'].forEach(f => {
                 const el = document.getElementById(f);
-                el.readOnly = true; // نستخدم readOnly بدل disabled عشان النص يضل واضح
+                el.readOnly = true;
                 el.classList.add('locked');
                 if(el.tagName === 'SELECT') el.style.pointerEvents = 'none';
             });
-
-            // إظهار واجهة المسؤول وإخفاء أزرار المدقق
-            document.getElementById('auditorButtons').classList.add('hidden');
-            document.getElementById('managerBox').classList.remove('hidden');
         } else {
-            // وضع المدقق: إنشاء رقم جديد
+            // وضع المدقق
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     }
 
-    // تشغيل الدالة فوراً عند تحميل الصفحة
-    window.onload = fillData;
+    // تشغيل الدالة فوراً وعند اكتمال التحميل لضمان عدم الضياع
+    initPage();
+    window.onload = initPage;
 
     function generateWALink() {
-        const d = {
-            id: document.getElementById('id').value,
-            aud: document.getElementById('auditor').value,
-            src: document.getElementById('source').value,
-            rsk: document.getElementById('risk').value,
-            dsc: document.getElementById('desc').value
-        };
-        
-        // الرابط الأساسي لصفحتك
-        const baseUrl = window.location.origin + window.location.pathname;
-        
-        // بناء الرابط (تأكدنا من استخدام encodeURIComponent لكل قيمة)
-        const fullUrl = baseUrl + `?id=${d.id}&aud=${encodeURIComponent(d.aud)}&src=${encodeURIComponent(d.src)}&rsk=${encodeURIComponent(d.rsk)}&dsc=${encodeURIComponent(d.dsc)}`;
-        
-        const msg = `*إشعار NCR جديد*%0Aرقم الحالة: ${d.id}%0Aالمدقق: ${d.aud}%0Aالوصف: ${d.dsc}%0A---%0A*رابط الرد:*%0A${fullUrl}`;
-        
+        const id = document.getElementById('id').value;
+        const aud = document.getElementById('auditor').value;
+        const src = document.getElementById('source').value;
+        const rsk = document.getElementById('risk').value;
+        const dsc = document.getElementById('desc').value;
+
+        const cleanUrl = window.location.origin + window.location.pathname;
+        const params = `?id=${id}&aud=${encodeURIComponent(aud)}&src=${encodeURIComponent(src)}&rsk=${encodeURIComponent(rsk)}&dsc=${encodeURIComponent(dsc)}`;
+        const fullUrl = cleanUrl + params;
+
+        const msg = `*تنبيه جودة (NCR)*%0Aرقم الحالة: ${id}%0Aالمدقق: ${aud}%0Aالوصف: ${dsc}%0A---%0A*رابط الرد:*%0A${fullUrl}`;
         window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
     }
 
     function sendToGoogle(mode) {
         const btn = event.target;
-        const originalText = btn.innerText;
         btn.disabled = true;
         btn.innerText = "جاري الحفظ...";
 
@@ -160,14 +163,9 @@
 
         fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
         .then(() => {
-            alert(mode === 'auditor' ? "تم حفظ الحالة!" : "تم تحديث الرد!");
+            alert("تم الحفظ بنجاح!");
             btn.disabled = false;
-            btn.innerText = originalText;
-        })
-        .catch(() => {
-            alert("خطأ في الاتصال");
-            btn.disabled = false;
-            btn.innerText = originalText;
+            btn.innerText = "تم الحفظ";
         });
     }
 </script>
