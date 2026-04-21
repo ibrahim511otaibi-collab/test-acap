@@ -15,6 +15,7 @@
         label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; color: #000 !important; }
 
+        /* تصميم الخانات الباهتة (المقفولة) للمسؤول لضمان وضوح النص ومنع التعديل */
         .locked {
             background-color: #f0f0f0 !important;
             cursor: not-allowed;
@@ -31,6 +32,7 @@
         .hidden { display: none; }
         h2, h3 { text-align: center; color: #444; }
 
+        /* شاشة التحميل عند جلب البيانات */
         #loadingScreen {
             display: none;
             text-align: center;
@@ -46,7 +48,7 @@
     <h2>نظام إدارة عدم المطابقة (NCR)</h2>
 
     <div id="loadingScreen">
-        ⏳ جاري تحميل بيانات الحالة... يرجى الانتظار
+        ⏳ جاري تحميل بيانات الحالة...
     </div>
 
     <div id="auditorBox" class="card auditor-card">
@@ -126,52 +128,48 @@
 
 <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbyIXvbs9EHHsrt7WF8L5dAprsqg6vzFSgRzO5GiGQxFJanwK_ItO-gxhchsmznGEcWs/exec";
-    const siteURL = "https://ibrahim511otaibi-collab.github.io/QualityFarwaniya/";
+    
+    // التعديل الجوهري: الرابط يوجه إلى بوابة المسؤول "QualityFarwaniya"
+    const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/QualityFarwaniya/";
 
-    // دالة محسنة لجلب المعرف من الرابط لضمان عملها على الهواتف
     function getParam(name) {
-        const url = window.location.href;
-        const nameClean = name.replace(/[\[\]]/g, '\\$&');
-        const regex = new RegExp('[?&]' + nameClean + '(=([^&#]*)|&|#|$)');
-        const results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
     }
 
     async function initPage() {
         const idVal = getParam('id');
 
-        if (idVal && idVal.trim() !== "") {
+        if (idVal) {
             document.getElementById('auditorBox').classList.add('hidden');
             document.getElementById('loadingScreen').style.display = 'block';
 
             try {
-                const response = await fetch(`${scriptURL}?id=${idVal}&t=${new Date().getTime()}`);
+                const response = await fetch(`${scriptURL}?id=${idVal}`);
                 const data = await response.json();
 
                 if (data && data.id) {
-                    document.getElementById('idDisplay').value      = data.id;
-                    document.getElementById('auditorDisplay').value = data.auditor || "";
-                    document.getElementById('sourceDisplay').value  = data.source || "";
-                    document.getElementById('riskDisplay').value    = data.risk || "";
-                    document.getElementById('descDisplay').value    = data.desc || "";
+                    document.getElementById('idDisplay').value      = data.id       || "";
+                    document.getElementById('auditorDisplay').value = data.auditor  || "";
+                    document.getElementById('sourceDisplay').value  = data.source   || "";
+                    document.getElementById('riskDisplay').value    = data.risk     || "";
+                    document.getElementById('descDisplay').value    = data.desc     || "";
 
                     document.getElementById('loadingScreen').style.display = 'none';
                     document.getElementById('managerBox').classList.remove('hidden');
                 } else {
-                    document.getElementById('loadingScreen').innerHTML = "⚠️ الحالة غير موجودة في السجل.<br><small>تأكد من أن المدقق قد أتم عملية الحفظ أولاً.</small>";
+                    document.getElementById('loadingScreen').innerText = "⚠️ لم يتم العثور على بيانات لهذه الحالة.";
                 }
             } catch (err) {
                 console.error(err);
-                document.getElementById('loadingScreen').innerText = "❌ حدث خطأ في الاتصال بالخادم. أعد تحميل الصفحة.";
+                document.getElementById('loadingScreen').innerText = "❌ حدث خطأ في تحميل البيانات. حاول مرة أخرى.";
             }
         } else {
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     }
 
-    window.addEventListener('load', initPage);
+    window.addEventListener('DOMContentLoaded', initPage);
 
     async function saveAndSendWA() {
         const id  = document.getElementById('id').value;
@@ -187,27 +185,36 @@
 
         const btn = document.getElementById('btnSave');
         btn.disabled = true;
-        btn.innerText = "⏳ جاري الحفظ في السجل...";
+        btn.innerText = "⏳ جاري الحفظ...";
 
-        const payload = { id, auditor: aud, source: src, risk: rsk, desc: dsc, rootCause: "", action: "", manager: "" };
+        const payload = {
+            id, auditor: aud, source: src, risk: rsk, desc: dsc,
+            rootCause: "", action: "", manager: ""
+        };
 
         try {
+            // 1️⃣ حفظ البيانات في الشيت
             await fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
             btn.innerText = "⏳ جاري توجيهك للواتساب...";
-            const shortPageUrl = siteURL + "?id=" + id;
+
+            // 2️⃣ بناء الرابط الموجه لبوابة "QualityFarwaniya" (بوابة المسؤول)
+            const shortPageUrl = `${managerPortalURL}?id=${id}`;
+
+            // 3️⃣ إرسال واتساب (استخدام location.href لضمان العمل على الهاتف)
             const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${shortPageUrl}`;
             
-            // توجيه نهائي ومباشر
-            window.location.replace(`https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`);
+            window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
 
         } catch (err) {
-            alert("حدث خطأ أثناء الحفظ.");
+            console.error(err);
+            alert("حدث خطأ أثناء الحفظ. حاول مرة أخرى.");
             btn.disabled = false;
             btn.innerText = "💾 حفظ وإرسال واتساب للمسؤول";
         }
@@ -215,30 +222,41 @@
 
     function sendToGoogle(mode) {
         const btn = event.target;
+        const originalText = btn.innerText;
         btn.disabled = true;
-        btn.innerText = "جاري التحديث...";
+        btn.innerText = "جاري الحفظ...";
 
         const payload = {
-            id: document.getElementById('idDisplay').value,
+            id:        document.getElementById('idDisplay').value,
+            auditor:   document.getElementById('auditorDisplay').value,
+            source:    document.getElementById('sourceDisplay').value,
+            risk:      document.getElementById('riskDisplay').value,
+            desc:      document.getElementById('descDisplay').value,
             rootCause: document.getElementById('rootCause').value || "",
-            action: document.getElementById('action').value || "",
-            manager: document.getElementById('manager').value || ""
+            action:    document.getElementById('action').value    || "",
+            manager:   document.getElementById('manager').value   || ""
         };
 
         fetch(scriptURL, {
             method: 'POST',
             mode: 'no-cors',
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         })
         .then(() => {
-            alert("✅ تم تحديث السجل واعتماد الرد بنجاح.");
-            window.location.href = siteURL; // العودة للرئيسية
+            alert("تم إرسال رد المسؤول وتحديث البيانات!");
+            btn.disabled = false;
+            btn.innerText = originalText;
         })
         .catch(err => {
-            alert("خطأ في التحديث.");
+            console.error(err);
+            alert("حدث خطأ في الاتصال بالسيرفر.");
             btn.disabled = false;
+            btn.innerText = originalText;
         });
     }
 </script>
+
 </body>
 </html>
