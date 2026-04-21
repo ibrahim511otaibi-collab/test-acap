@@ -111,12 +111,12 @@
 
             // 1. تعبئة البيانات من الرابط إلى الخانات
             document.getElementById('id').value = idVal;
-            document.getElementById('auditor').value = getParam('aud') ? decodeURIComponent(getParam('aud')) : "";
-            document.getElementById('desc').value = getParam('dsc') ? decodeURIComponent(getParam('dsc')) : "";
+            document.getElementById('auditor').value = getParam('aud') || "";
+            document.getElementById('desc').value = getParam('dsc') || "";
 
             // ✅ إصلاح SELECT: البحث عن الـ option المطابق وتحديده بدلاً من تعيين .value مباشرة
-            const srcVal = getParam('src') ? decodeURIComponent(getParam('src')) : "";
-            const rskVal = getParam('rsk') ? decodeURIComponent(getParam('rsk')) : "";
+            const srcVal = getParam('src') || "";
+            const rskVal = getParam('rsk') || "";
 
             const sourceEl = document.getElementById('source');
             const riskEl = document.getElementById('risk');
@@ -163,13 +163,15 @@
 
         const cleanUrl = window.location.origin + window.location.pathname;
         
-        // بناء الرابط المشفر مع مسميات واضحة للقراءة
-        const params = `?id=${id}&aud=${encodeURIComponent(aud)}&src=${encodeURIComponent(src)}&rsk=${encodeURIComponent(rsk)}&dsc=${encodeURIComponent(dsc)}`;
+        // ✅ بناء الرابط بدون تشفير مسبق للعربية (سيتم التشفير الكامل لاحقاً)
+        const params = `?id=${id}&aud=${aud}&src=${src}&rsk=${rsk}&dsc=${dsc}`;
         const fullUrl = cleanUrl + params;
 
-        const msg = `*تنبيه جودة (NCR)*%0Aرقم الحالة: ${id}%0Aالمدقق: ${aud}%0Aالوصف: ${dsc}%0A---%0A*يرجى الرد عبر الرابط التالي:*%0A${fullUrl}`;
+        // ✅ الإصلاح الجوهري: بناء نص الرسالة كاملاً ثم تشفيره دفعة واحدة
+        // السبب: الرابط يحتوي على رموز & و ? التي كانت تكسر رابط wa.me
+        const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${fullUrl}`;
         
-        window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
+        window.open(`https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`, '_blank');
     }
 
     function sendToGoogle(mode) {
