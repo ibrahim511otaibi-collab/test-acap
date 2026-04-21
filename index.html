@@ -14,7 +14,7 @@
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .locked { background-color: #f0f0f0; cursor: not-allowed; border: 1px dashed #ccc; color: #555; }
+        .locked { background-color: #e9ecef !important; cursor: not-allowed; color: #495057 !important; opacity: 1 !important; -webkit-text-fill-color: #495057 !important; }
         .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
         .btn-save { background: var(--auditor-color); }
         .btn-wa { background: #25D366; }
@@ -32,11 +32,11 @@
         <h3>📋 تسجيل حالة جديدة</h3>
         <div class="form-group">
             <label>رقم الحالة (ID):</label>
-            <input type="text" id="id" class="locked" readonly>
+            <input type="text" id="id" readonly>
         </div>
         <div class="form-group">
             <label>اسم المدقق:</label>
-            <input type="text" id="auditor" placeholder="أدخل اسم المدقق">
+            <input type="text" id="auditor">
         </div>
         <div class="form-group">
             <label>مصدر الحالة:</label>
@@ -57,7 +57,7 @@
         </div>
         <div class="form-group">
             <label>وصف عدم المطابقة:</label>
-            <textarea id="desc" rows="3" placeholder="مثال: عدم أرشفة الملفات"></textarea>
+            <textarea id="desc" rows="3"></textarea>
         </div>
         <div id="auditorButtons">
             <button class="btn btn-save" onclick="sendToGoogle('auditor')">💾 حفظ البيانات في الشيت</button>
@@ -69,15 +69,15 @@
         <h3>🛠️ رد الإدارة والمسؤول</h3>
         <div class="form-group">
             <label>السبب الجذري (Root Cause):</label>
-            <textarea id="rootCause" rows="3" placeholder="لماذا حدثت المشكلة؟"></textarea>
+            <textarea id="rootCause" rows="3"></textarea>
         </div>
         <div class="form-group">
             <label>الإجراء التصحيحي (Action):</label>
-            <textarea id="action" rows="3" placeholder="ما هو الإجراء المتخذ؟"></textarea>
+            <textarea id="action" rows="3"></textarea>
         </div>
         <div class="form-group">
             <label>اسم المسؤول المعتمد:</label>
-            <input type="text" id="manager" placeholder="اسم المسؤول">
+            <input type="text" id="manager">
         </div>
         <button class="btn btn-reply" onclick="sendToGoogle('manager')">✅ إرسال الرد وتحديث الشيت</button>
     </div>
@@ -86,52 +86,56 @@
 <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbwQzvwODnfD7Syz-i1htjZDU36zcFhbJCN0lN69fM5Hij-2kwr-BVi_vbhkx9LQ7_Bu/exec";
 
-    // دالة فك التشفير والتحميل
-    window.onload = function() {
-        const params = new URLSearchParams(window.location.search);
+    // دالة تعبئة البيانات (تم فصلها لضمان التشغيل الأكيد)
+    function fillDataFromURL() {
+        const query = window.location.search;
+        const urlParams = new URLSearchParams(query);
         
-        // إذا وجدنا ID في الرابط، يعني هذا المسؤول
-        if (params.has('id')) {
-            console.log("تم اكتشاف وضع المسؤول، جاري تعبئة البيانات...");
+        if (urlParams.has('id')) {
+            console.log("جاري استخراج البيانات...");
+            
+            // تعبئة البيانات مع فك التشفير اليدوي
+            document.getElementById('id').value = urlParams.get('id') || "";
+            document.getElementById('auditor').value = urlParams.get('aud') || "";
+            document.getElementById('source').value = urlParams.get('src') || "";
+            document.getElementById('risk').value = urlParams.get('rsk') || "";
+            document.getElementById('desc').value = urlParams.get('dsc') || "";
 
-            // تعبئة البيانات مع فك تشفير اللغة العربية
-            document.getElementById('id').value = decodeURIComponent(params.get('id') || "");
-            document.getElementById('auditor').value = decodeURIComponent(params.get('aud') || "");
-            document.getElementById('source').value = decodeURIComponent(params.get('src') || "");
-            document.getElementById('risk').value = decodeURIComponent(params.get('rsk') || "");
-            document.getElementById('desc').value = decodeURIComponent(params.get('dsc') || "");
-
-            // قفل الخانات فوراً
-            ['auditor', 'source', 'risk', 'desc'].forEach(id => {
-                const el = document.getElementById(id);
-                el.readOnly = true;
-                el.classList.add('locked');
-            });
-
-            // تبديل الواجهة
+            // وضع المسؤول: قفل وتحويل الواجهة
             document.getElementById('auditorButtons').classList.add('hidden');
             document.getElementById('managerBox').classList.remove('hidden');
+            
+            ['auditor', 'source', 'risk', 'desc', 'id'].forEach(fieldId => {
+                const el = document.getElementById(fieldId);
+                el.disabled = true;
+                el.classList.add('locked');
+            });
         } else {
-            // وضع المدقق: إنشاء رقم حالة جديد
-            document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
+            // وضع المدقق: توليد رقم جديد
+            if (!document.getElementById('id').value) {
+                document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
+            }
         }
-    };
+    }
+
+    // تشغيل الدالة فوراً وعند تحميل الصفحة لضمان عدم الضياع
+    fillDataFromURL();
+    window.addEventListener('DOMContentLoaded', fillDataFromURL);
 
     function generateWALink() {
-        const id = document.getElementById('id').value;
-        const aud = document.getElementById('auditor').value;
-        const src = document.getElementById('source').value;
-        const rsk = document.getElementById('risk').value;
-        const dsc = document.getElementById('desc').value;
-
-        // الرابط الأساسي لصفحتك
-        const baseUrl = window.location.origin + window.location.pathname;
-
-        // بناء الرابط المختصر للمناولة
-        const finalUrl = `${baseUrl}?id=${encodeURIComponent(id)}&aud=${encodeURIComponent(aud)}&src=${encodeURIComponent(src)}&rsk=${encodeURIComponent(rsk)}&dsc=${encodeURIComponent(dsc)}`;
-
-        const msg = `*إشعار حالة جودة جديدة*%0A------------------%0A*رقم الحالة:* ${id}%0A*المدقق:* ${aud}%0A*الوصف:* ${dsc}%0A------------------%0A*رابط الرد المباشر:*%0A${finalUrl}`;
+        const d = {
+            id: document.getElementById('id').value,
+            aud: document.getElementById('auditor').value,
+            src: document.getElementById('source').value,
+            rsk: document.getElementById('risk').value,
+            dsc: document.getElementById('desc').value
+        };
         
+        const baseUrl = window.location.origin + window.location.pathname;
+        const params = `?id=${encodeURIComponent(d.id)}&aud=${encodeURIComponent(d.aud)}&src=${encodeURIComponent(d.src)}&rsk=${encodeURIComponent(d.rsk)}&dsc=${encodeURIComponent(d.dsc)}`;
+        const fullUrl = baseUrl + params;
+        
+        const msg = `*إشعار حالة جودة*%0Aرقم: ${d.id}%0Aالمدقق: ${d.aud}%0Aالوصف: ${d.dsc}%0A----------------%0Aرابط الرد:%0A${fullUrl}`;
         window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
     }
 
@@ -140,25 +144,25 @@
         btn.disabled = true;
         btn.innerText = "جاري الحفظ...";
 
-        const data = {
+        const payload = {
             id: document.getElementById('id').value,
             auditor: document.getElementById('auditor').value,
             source: document.getElementById('source').value,
             risk: document.getElementById('risk').value,
             desc: document.getElementById('desc').value,
-            rootCause: document.getElementById('rootCause').value || "",
-            action: document.getElementById('action').value || "",
-            manager: document.getElementById('manager').value || ""
+            rootCause: document.getElementById('rootCause').value,
+            action: document.getElementById('action').value,
+            manager: document.getElementById('manager').value
         };
 
-        fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
+        fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
         .then(() => {
-            alert("تمت العملية بنجاح!");
+            alert("تم الحفظ بنجاح!");
             btn.disabled = false;
             btn.innerText = (mode === 'auditor') ? "💾 حفظ البيانات في الشيت" : "✅ إرسال الرد وتحديث الشيت";
         })
-        .catch(err => {
-            alert("خطأ في الاتصال");
+        .catch(() => {
+            alert("حدث خطأ");
             btn.disabled = false;
         });
     }
