@@ -139,7 +139,7 @@
         }
     }
 
-    // تشغيل الدالة عند تحميل الصفحة مباشرة
+    // تشغيل الدالة عند تحميل الصفحة مباشرة لضمان قراءة الرابط في سفاري
     window.addEventListener('DOMContentLoaded', initPage);
 
     function generateWALink() {
@@ -149,16 +149,14 @@
         const rsk = document.getElementById('risk').value;
         const dsc = document.getElementById('desc').value;
 
-        // الحصول على رابط الموقع الحالي بدون البارامترات القديمة
         const cleanUrl = window.location.origin + window.location.pathname;
         
-        // بناء الرابط المشفر الذي سيصل للمسؤول
+        // بناء الرابط المشفر مع مسميات واضحة للقراءة
         const params = `?id=${id}&aud=${encodeURIComponent(aud)}&src=${encodeURIComponent(src)}&rsk=${encodeURIComponent(rsk)}&dsc=${encodeURIComponent(dsc)}`;
         const fullUrl = cleanUrl + params;
 
         const msg = `*تنبيه جودة (NCR)*%0Aرقم الحالة: ${id}%0Aالمدقق: ${aud}%0Aالوصف: ${dsc}%0A---%0A*يرجى الرد عبر الرابط التالي:*%0A${fullUrl}`;
         
-        // رقم الواتساب الخاص بك
         window.open(`https://wa.me/96566695443?text=${msg}`, '_blank');
     }
 
