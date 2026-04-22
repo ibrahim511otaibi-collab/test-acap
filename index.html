@@ -63,7 +63,7 @@
         </div>
         <!-- ===== بداية إضافة حقل القسم ===== -->
         <div class="form-group">
-            <label>اسم القسم:</label>
+            <label>اسم القسم المعني:</label>
             <select id="department">
                 <option value="">-- اختر القسم --</option>
                 <option value="قسم الرعاية الاجتماعية">قسم الرعاية الاجتماعية</option>
@@ -102,15 +102,15 @@
         </div>
         <div class="form-group">
             <label>وصف عدم المطابقة:</label>
-            <textarea id="desc" rows="3" placeholder="اشرح الملاحظة هنا..."></textarea>
+            <textarea id="desc" rows="3" placeholder="اشرح حالة عدم المطابقة هنا..."></textarea>
         </div>
         <div id="auditorButtons">
-            <button id="btnSave" class="btn btn-save" onclick="saveAndSendWA()">💾 حفظ وإرسال واتساب للمسؤول</button>
+            <button id="btnSave" class="btn btn-save" onclick="saveAndSendWA()">💾 حفظ وإرسال واتساب لمسؤول القسم</button>
         </div>
     </div>
 
     <div id="managerBox" class="card manager-card hidden">
-        <h3>🛠️ رد الإدارة والمسؤول</h3>
+        <h3>🛠️ رد الإدارة او المسؤول</h3>
         <div class="form-group">
             <label>رقم الحالة:</label>
             <input type="text" id="idDisplay" class="locked" readonly>
@@ -139,18 +139,18 @@
         </div>
         <hr>
         <div class="form-group">
-            <label>السبب الجذري (Root Cause):</label>
+            <label>السبب الجذري لحدوث الحالة (Root Cause):</label>
             <textarea id="rootCause" rows="3" placeholder="لماذا حدثت المشكلة؟"></textarea>
         </div>
         <div class="form-group">
-            <label>الإجراء التصحيحي (Action):</label>
+            <label>الإجراء التصحيحي لتجنب تكرار الحالة (Action):</label>
             <textarea id="action" rows="3" placeholder="ما هو الإجراء المتخذ؟"></textarea>
         </div>
         <div class="form-group">
-            <label>اسم المسؤول المعتمد:</label>
+            <label>اسم المسؤول المعتمد او من ينوب عنه:</label>
             <input type="text" id="manager" placeholder="اسم المسؤول">
         </div>
-        <button class="btn btn-reply" onclick="sendToGoogle('manager')">✅ إرسال الرد وتحديث السطر</button>
+        <button class="btn btn-reply" onclick="sendToGoogle('manager')">✅ جاري حفظ رد المسؤول</button>
     </div>
 </div>
 
