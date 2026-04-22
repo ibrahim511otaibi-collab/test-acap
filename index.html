@@ -2,68 +2,307 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>نظام الجودة - مركز الفروانية</title>
+    <!-- خط Noto Sans Arabic (نفس خط الموقع الرئيسي) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (لأيقونات احترافية) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --auditor-color: #2d5a27; --manager-color: #0056b3; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); padding: 20px; direction: rtl; }
-        .container { max-width: 800px; margin: auto; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; border-right: 10px solid; }
-        .auditor-card { border-right-color: var(--auditor-color); }
-        .manager-card { border-right-color: var(--manager-color); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; color: #000 !important; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* تصميم الخانات الباهتة (المقفولة) للمسؤول لضمان وضوح النص ومنع التعديل */
+        :root {
+            --primary: #097834;      /* الأخضر الأساسي */
+            --secondary: #C7AC25;    /* الذهبي */
+            --primary-dark: #065d28;
+            --secondary-dark: #a88f1a;
+            --bg-light: #F9FAFB;
+            --card-white: #FFFFFF;
+            --text-dark: #1E1E2F;
+            --text-muted: #5A5A6E;
+            --border-light: #E9ECEF;
+            --shadow-sm: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            --shadow-md: 0 20px 30px -12px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: linear-gradient(145deg, #F1F5F9 0%, #EFF2F7 100%);
+            padding: 30px 20px;
+            direction: rtl;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        /* ===== رأس الصفحة مع الشعار ===== */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: var(--card-white);
+            padding: 15px 25px;
+            border-radius: 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(9, 120, 52, 0.1);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            background: white;
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .logo-text {
+            line-height: 1.3;
+        }
+        .logo-text .org {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .logo-text .center {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .page-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary-dark));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .badge-ncr {
+            background: rgba(9, 120, 52, 0.1);
+            padding: 6px 14px;
+            border-radius: 40px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.8rem;
+            border-right: 3px solid var(--secondary);
+        }
+
+        /* ===== البطاقات ===== */
+        .card {
+            background: var(--card-white);
+            padding: 28px 30px;
+            border-radius: 32px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 28px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .card:hover {
+            box-shadow: 0 25px 35px -15px rgba(0,0,0,0.12);
+        }
+        .auditor-card {
+            border-top: 6px solid var(--primary);
+        }
+        .manager-card {
+            border-top: 6px solid var(--secondary);
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            border-right: 5px solid;
+            padding-right: 15px;
+        }
+        .auditor-card h3 {
+            border-right-color: var(--primary);
+        }
+        .manager-card h3 {
+            border-right-color: var(--secondary);
+        }
+
+        /* ===== الحقول ===== */
+        .form-group {
+            margin-bottom: 22px;
+        }
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            letter-spacing: -0.2px;
+        }
+        label i {
+            color: var(--secondary);
+            margin-left: 6px;
+            font-size: 0.85rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-light);
+            border-radius: 20px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            transition: all 0.2s;
+            background-color: #fff;
+            color: #000 !important;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(9, 120, 52, 0.15);
+        }
         .locked {
-            background-color: #f0f0f0 !important;
+            background-color: #F8F9FC !important;
             cursor: not-allowed;
-            border: 1px solid #ccc !important;
-            color: #555 !important;
-            font-weight: bold;
+            border-color: #E2E8F0 !important;
+            color: #2D3A4B !important;
+            font-weight: 500;
             pointer-events: none;
         }
 
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
-        .btn-save { background: var(--auditor-color); }
-        .btn-wa { background: #25D366; }
-        .btn-reply { background: var(--manager-color); }
-        .hidden { display: none; }
-        h2, h3 { text-align: center; color: #444; }
+        /* ===== الأزرار ===== */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+        }
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 12px rgba(9, 120, 52, 0.3);
+        }
+        .btn-save:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(9, 120, 52, 0.25);
+        }
+        .btn-reply {
+            background: var(--secondary);
+            color: #1E1E2F;
+            box-shadow: 0 5px 12px rgba(199, 172, 37, 0.25);
+        }
+        .btn-reply:hover {
+            background: var(--secondary-dark);
+            transform: translateY(-2px);
+            color: white;
+        }
+        hr {
+            margin: 25px 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to left, transparent, var(--border-light), transparent);
+        }
 
-        /* شاشة التحميل عند جلب البيانات */
+        /* شاشة التحميل */
         #loadingScreen {
             display: none;
-            text-align: center;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(4px);
+            border-radius: 48px;
             padding: 40px;
-            font-size: 18px;
-            color: #555;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 20px;
+            border: 1px solid rgba(199,172,37,0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* تحسينات الجوال */
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+            .card {
+                padding: 20px;
+            }
+            .brand-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .page-title {
+                font-size: 1.1rem;
+            }
+            .btn {
+                padding: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>نظام إدارة عدم المطابقة (NCR)</h2>
+    <!-- رأس الصفحة بالشعار -->
+    <div class="brand-header">
+        <div class="logo-area">
+            <img class="logo-img" src="https://i.ibb.co/r2LcLwmn/logo.png" alt="شعار جمعية إحياء التراث الإسلامي" onerror="this.src='https://ui-avatars.com/api/?name=تراث&background=097834&color=fff'">
+            <div class="logo-text">
+                <div class="org">جمعية إحياء التراث الإسلامي</div>
+                <div class="center">مركز محافظة الفروانية</div>
+            </div>
+        </div>
+        <div class="page-title">
+            نظام إدارة عدم المطابقة (NCR)
+        </div>
+        <div class="badge-ncr">
+            ضبط الجودة
+        </div>
+    </div>
 
     <div id="loadingScreen">
         ⏳ جاري تحميل بيانات الحالة...
     </div>
 
+    <!-- بطاقة المدقق -->
     <div id="auditorBox" class="card auditor-card">
         <h3>📋 تسجيل حالة جديدة</h3>
         <div class="form-group">
-            <label>رقم الحالة (ID):</label>
+            <label><i class="fas fa-hashtag"></i> رقم الحالة (ID):</label>
             <input type="text" id="id" class="locked" readonly>
         </div>
         <div class="form-group">
-            <label>اسم المدقق:</label>
+            <label><i class="fas fa-user-check"></i> اسم المدقق:</label>
             <input type="text" id="auditor" placeholder="أدخل اسمك">
         </div>
-        <!-- ===== بداية إضافة حقل القسم ===== -->
         <div class="form-group">
-            <label>اسم القسم المعني:</label>
+            <label><i class="fas fa-building"></i> اسم القسم المعني:</label>
             <select id="department">
                 <option value="">-- اختر القسم --</option>
                 <option value="قسم الرعاية الاجتماعية">قسم الرعاية الاجتماعية</option>
@@ -82,9 +321,8 @@
                 <option value="قسم النشء والشباب">قسم النشء والشباب</option>
             </select>
         </div>
-        <!-- ===== نهاية إضافة حقل القسم ===== -->
         <div class="form-group">
-            <label>مصدر الحالة:</label>
+            <label><i class="fas fa-exclamation-triangle"></i> مصدر الحالة:</label>
             <select id="source">
                 <option value="شكوى">شكوى</option>
                 <option value="تدقيق داخلي">تدقيق داخلي</option>
@@ -93,7 +331,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label>مستوى الخطورة:</label>
+            <label><i class="fas fa-chart-line"></i> مستوى الخطورة:</label>
             <select id="risk">
                 <option value="منخفضة">منخفضة</option>
                 <option value="متوسطة">متوسطة</option>
@@ -101,7 +339,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label>وصف عدم المطابقة:</label>
+            <label><i class="fas fa-file-alt"></i> وصف عدم المطابقة:</label>
             <textarea id="desc" rows="3" placeholder="اشرح حالة عدم المطابقة هنا..."></textarea>
         </div>
         <div id="auditorButtons">
@@ -109,45 +347,44 @@
         </div>
     </div>
 
+    <!-- بطاقة المسؤول -->
     <div id="managerBox" class="card manager-card hidden">
         <h3>🛠️ رد الإدارة او المسؤول</h3>
         <div class="form-group">
-            <label>رقم الحالة:</label>
+            <label><i class="fas fa-hashtag"></i> رقم الحالة:</label>
             <input type="text" id="idDisplay" class="locked" readonly>
         </div>
         <div class="form-group">
-            <label>اسم المدقق:</label>
+            <label><i class="fas fa-user-check"></i> اسم المدقق:</label>
             <input type="text" id="auditorDisplay" class="locked" readonly>
         </div>
-        <!-- ===== عرض القسم في صفحة المسؤول (للقراءة فقط) ===== -->
         <div class="form-group">
-            <label>اسم القسم:</label>
+            <label><i class="fas fa-building"></i> اسم القسم:</label>
             <input type="text" id="departmentDisplay" class="locked" readonly>
         </div>
-        <!-- ===== نهاية عرض القسم ===== -->
         <div class="form-group">
-            <label>مصدر الحالة:</label>
+            <label><i class="fas fa-exclamation-triangle"></i> مصدر الحالة:</label>
             <input type="text" id="sourceDisplay" class="locked" readonly>
         </div>
         <div class="form-group">
-            <label>مستوى الخطورة:</label>
+            <label><i class="fas fa-chart-line"></i> مستوى الخطورة:</label>
             <input type="text" id="riskDisplay" class="locked" readonly>
         </div>
         <div class="form-group">
-            <label>وصف عدم المطابقة:</label>
+            <label><i class="fas fa-file-alt"></i> وصف عدم المطابقة:</label>
             <textarea id="descDisplay" rows="3" class="locked" readonly></textarea>
         </div>
         <hr>
         <div class="form-group">
-            <label>السبب الجذري لحدوث الحالة (Root Cause):</label>
+            <label><i class="fas fa-search"></i> السبب الجذري لحدوث الحالة (Root Cause):</label>
             <textarea id="rootCause" rows="3" placeholder="لماذا حدثت المشكلة؟"></textarea>
         </div>
         <div class="form-group">
-            <label>الإجراء التصحيحي لتجنب تكرار الحالة (Action):</label>
+            <label><i class="fas fa-tools"></i> الإجراء التصحيحي لتجنب تكرار الحالة (Action):</label>
             <textarea id="action" rows="3" placeholder="ما هو الإجراء المتخذ؟"></textarea>
         </div>
         <div class="form-group">
-            <label>اسم المسؤول المعتمد او من ينوب عنه:</label>
+            <label><i class="fas fa-user-tie"></i> اسم المسؤول المعتمد او من ينوب عنه:</label>
             <input type="text" id="manager" placeholder="اسم المسؤول">
         </div>
         <button class="btn btn-reply" onclick="sendToGoogle('manager')">✅ جاري حفظ رد المسؤول</button>
@@ -155,9 +392,8 @@
 </div>
 
 <script>
+    // ===== جميع البيانات والدوال الأصلية دون أي تغيير =====
     const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec";
-    
-    // التعديل الجوهري: الرابط يوجه إلى بوابة المسؤول "QualityFarwaniya"
     const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
 
     function getParam(name) {
@@ -167,10 +403,16 @@
 
     async function initPage() {
         const idVal = getParam('id');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const auditorBox = document.getElementById('auditorBox');
+        const managerBox = document.getElementById('managerBox');
 
         if (idVal) {
-            document.getElementById('auditorBox').classList.add('hidden');
-            document.getElementById('loadingScreen').style.display = 'block';
+            // وضع المسؤول: إظهار شاشة التحميل وجلب البيانات
+            auditorBox.classList.add('hidden');
+            managerBox.classList.add('hidden');
+            loadingScreen.style.display = 'block';
+            loadingScreen.innerText = "⏳ جاري تحميل بيانات الحالة...";
 
             try {
                 const response = await fetch(`${scriptURL}?id=${idVal}`);
@@ -179,22 +421,25 @@
                 if (data && data.id) {
                     document.getElementById('idDisplay').value      = data.id       || "";
                     document.getElementById('auditorDisplay').value = data.auditor  || "";
-                    // عرض القسم إذا كان موجوداً في البيانات
                     document.getElementById('departmentDisplay').value = data.department || "";
                     document.getElementById('sourceDisplay').value  = data.source   || "";
                     document.getElementById('riskDisplay').value    = data.risk     || "";
                     document.getElementById('descDisplay').value    = data.desc     || "";
 
-                    document.getElementById('loadingScreen').style.display = 'none';
-                    document.getElementById('managerBox').classList.remove('hidden');
+                    loadingScreen.style.display = 'none';
+                    managerBox.classList.remove('hidden');
                 } else {
-                    document.getElementById('loadingScreen').innerText = "⚠️ لم يتم العثور على بيانات لهذه الحالة.";
+                    loadingScreen.innerText = "⚠️ لم يتم العثور على بيانات لهذه الحالة.";
                 }
             } catch (err) {
                 console.error(err);
-                document.getElementById('loadingScreen').innerText = "❌ حدث خطأ في تحميل البيانات. حاول مرة أخرى.";
+                loadingScreen.innerText = "❌ حدث خطأ في تحميل البيانات. حاول مرة أخرى.";
             }
         } else {
+            // وضع المدقق: إخفاء شاشة التحميل وإظهار نموذج التسجيل
+            loadingScreen.style.display = 'none';
+            auditorBox.classList.remove('hidden');
+            managerBox.classList.add('hidden');
             document.getElementById('id').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
         }
     }
@@ -224,7 +469,6 @@
         };
 
         try {
-            // 1️⃣ حفظ البيانات في الشيت
             await fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -234,13 +478,8 @@
             });
 
             btn.innerText = "⏳ جاري توجيهك للواتساب...";
-
-            // 2️⃣ بناء الرابط الموجه لبوابة "QualityFarwaniya" (بوابة المسؤول)
             const shortPageUrl = `${managerPortalURL}?id=${id}`;
-
-            // 3️⃣ إرسال واتساب (استخدام location.href لضمان العمل على الهاتف)
             const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالقسم: ${dept}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${shortPageUrl}`;
-            
             window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
 
         } catch (err) {
