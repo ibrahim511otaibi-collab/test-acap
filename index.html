@@ -61,6 +61,28 @@
             <label>اسم المدقق:</label>
             <input type="text" id="auditor" placeholder="أدخل اسمك">
         </div>
+        <!-- ===== بداية إضافة حقل القسم ===== -->
+        <div class="form-group">
+            <label>اسم القسم:</label>
+            <select id="department">
+                <option value="">-- اختر القسم --</option>
+                <option value="قسم الرعاية الاجتماعية">قسم الرعاية الاجتماعية</option>
+                <option value="قسم حلقات تحفيظ القرآن">قسم حلقات تحفيظ القرآن</option>
+                <option value="قسم الارشيف">قسم الارشيف</option>
+                <option value="قسم الاستقبال">قسم الاستقبال</option>
+                <option value="قسم الاستقطاعات">قسم الاستقطاعات</option>
+                <option value="قسم الاشراف الفني">قسم الاشراف الفني</option>
+                <option value="قسم الاشراف الاداري">قسم الاشراف الاداري</option>
+                <option value="قسم الاعلامية والتسويق">قسم الاعلامية والتسويق</option>
+                <option value="قسم ضبط الجودة">قسم ضبط الجودة</option>
+                <option value="قسم الدعم الفني">قسم الدعم الفني</option>
+                <option value="قسم الكلمة الطيبة">قسم الكلمة الطيبة</option>
+                <option value="قسم اللجنة العلمية">قسم اللجنة العلمية</option>
+                <option value="قسم المشاريع">قسم المشاريع</option>
+                <option value="قسم النشء والشباب">قسم النشء والشباب</option>
+            </select>
+        </div>
+        <!-- ===== نهاية إضافة حقل القسم ===== -->
         <div class="form-group">
             <label>مصدر الحالة:</label>
             <select id="source">
@@ -97,6 +119,12 @@
             <label>اسم المدقق:</label>
             <input type="text" id="auditorDisplay" class="locked" readonly>
         </div>
+        <!-- ===== عرض القسم في صفحة المسؤول (للقراءة فقط) ===== -->
+        <div class="form-group">
+            <label>اسم القسم:</label>
+            <input type="text" id="departmentDisplay" class="locked" readonly>
+        </div>
+        <!-- ===== نهاية عرض القسم ===== -->
         <div class="form-group">
             <label>مصدر الحالة:</label>
             <input type="text" id="sourceDisplay" class="locked" readonly>
@@ -127,7 +155,7 @@
 </div>
 
 <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyIXvbs9EHHsrt7WF8L5dAprsqg6vzFSgRzO5GiGQxFJanwK_ItO-gxhchsmznGEcWs/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec";
     
     // التعديل الجوهري: الرابط يوجه إلى بوابة المسؤول "QualityFarwaniya"
     const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
@@ -151,6 +179,8 @@
                 if (data && data.id) {
                     document.getElementById('idDisplay').value      = data.id       || "";
                     document.getElementById('auditorDisplay').value = data.auditor  || "";
+                    // عرض القسم إذا كان موجوداً في البيانات
+                    document.getElementById('departmentDisplay').value = data.department || "";
                     document.getElementById('sourceDisplay').value  = data.source   || "";
                     document.getElementById('riskDisplay').value    = data.risk     || "";
                     document.getElementById('descDisplay').value    = data.desc     || "";
@@ -174,6 +204,7 @@
     async function saveAndSendWA() {
         const id  = document.getElementById('id').value;
         const aud = document.getElementById('auditor').value;
+        const dept = document.getElementById('department').value;
         const src = document.getElementById('source').value;
         const rsk = document.getElementById('risk').value;
         const dsc = document.getElementById('desc').value;
@@ -188,7 +219,7 @@
         btn.innerText = "⏳ جاري الحفظ...";
 
         const payload = {
-            id, auditor: aud, source: src, risk: rsk, desc: dsc,
+            id, auditor: aud, department: dept, source: src, risk: rsk, desc: dsc,
             rootCause: "", action: "", manager: ""
         };
 
@@ -208,7 +239,7 @@
             const shortPageUrl = `${managerPortalURL}?id=${id}`;
 
             // 3️⃣ إرسال واتساب (استخدام location.href لضمان العمل على الهاتف)
-            const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${shortPageUrl}`;
+            const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nالمدقق: ${aud}\nالقسم: ${dept}\nالوصف: ${dsc}\n---\n*يرجى الرد عبر الرابط التالي:*\n${shortPageUrl}`;
             
             window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
 
@@ -229,6 +260,7 @@
         const payload = {
             id:        document.getElementById('idDisplay').value,
             auditor:   document.getElementById('auditorDisplay').value,
+            department: document.getElementById('departmentDisplay').value,
             source:    document.getElementById('sourceDisplay').value,
             risk:      document.getElementById('riskDisplay').value,
             desc:      document.getElementById('descDisplay').value,
