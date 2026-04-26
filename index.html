@@ -27,7 +27,6 @@
         .text-secondary { color: var(--secondary-color); }
         .bg-primary { background-color: var(--primary-color); }
 
-        /* شريط التمرير المخفي */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar {
             -ms-overflow-style: none;
@@ -35,178 +34,46 @@
             scroll-behavior: smooth;
         }
 
-        /* تنسيقات الأزرار */
-        .cat-btn.active {
-            background-color: var(--primary-color) !important;
-            color: white !important;
-        }
+        .cat-btn.active { background-color: var(--primary-color) !important; color: white !important; }
 
         .nav-scroll-btn {
-            background: white;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            z-index: 20;
-            transition: all 0.3s;
-            border: 1px solid #eee;
+            background: white; border-radius: 50%; width: 35px; height: 35px; display: flex;
+            align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer; z-index: 20; transition: all 0.3s; border: 1px solid #eee;
         }
-
-        .nav-scroll-btn:hover {
-            background: #f8f8f8;
-            transform: scale(1.1);
-        }
+        .nav-scroll-btn:hover { background: #f8f8f8; transform: scale(1.1); }
 
         .glass-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s;
         }
-
-        .glass-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
+        .glass-btn:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
 
         #mainLogo { transition: all 0.4s ease; }
-        #mainLogo:hover {
-            transform: scale(1.3);
-            filter: drop-shadow(0 0 10px rgba(199, 172, 37, 0.5));
-        }
+        #mainLogo:hover { transform: scale(1.3); filter: drop-shadow(0 0 10px rgba(199, 172, 37, 0.5)); }
 
         .modal-active { display: flex !important; }
 
-        /* ================= تنسيقات حاسبة الزكاة ================= */
-        .btn-primary-zakat {
-            background-color: var(--primary-color);
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .btn-primary-zakat:hover { 
-            background-color: #05652e; 
-            transform: translateY(-1px); 
-        }
-        
-        .editable-price {
-            border: 1px dashed var(--secondary-color);
-            background: #fffdf2;
-            text-align: center;
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--primary-color);
-            font-weight: bold;
-            width: 90px;
-        }
-        .editable-price:focus {
-            outline: none;
-            border-style: solid;
-            background: #fff;
-        }
+        /* حاسبة الزكاة */
+        .btn-primary-zakat { background-color: var(--primary-color); color: white; transition: all 0.3s ease; }
+        .btn-primary-zakat:hover { background-color: #05652e; transform: translateY(-1px); }
+        .editable-price { border: 1px dashed var(--secondary-color); background: #fffdf2; text-align: center; border-radius: 8px; font-size: 13px; color: var(--primary-color); font-weight: bold; width: 90px; }
+        .editable-price:focus { outline: none; border-style: solid; background: #fff; }
+        .label-style { display: block; font-size: 1.125rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--secondary-color); }
 
-        .label-style {
-            display: block;
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            color: var(--secondary-color);
-        }
+        /* القائمة الجانبية */
+        .sidebar { height: 100%; width: 0; position: fixed; z-index: 3000; top: 0; right: 0; background-color: white; overflow-x: hidden; transition: 0.4s; padding-top: 60px; box-shadow: -2px 0 10px rgba(0,0,0,0.1); }
+        .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 1.2rem; color: #444; display: block; transition: 0.3s; font-weight: bold; border-bottom: 1px solid #f0f0f0; }
+        .sidebar a:hover { background-color: #f8fcf9; color: var(--primary-color); }
+        .sidebar .closebtn { position: absolute; top: 10px; left: 25px; font-size: 36px; cursor: pointer; color: var(--primary-color); border-bottom: none; }
 
-        /* القائمة الجانبية (Sidebar) */
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 3000;
-            top: 0;
-            right: 0;
-            background-color: white;
-            overflow-x: hidden;
-            transition: 0.4s;
-            padding-top: 60px;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-        }
-        .sidebar a {
-            padding: 15px 25px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            color: #444;
-            display: block;
-            transition: 0.3s;
-            font-weight: bold;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .sidebar a:hover {
-            background-color: #f8fcf9;
-            color: var(--primary-color);
-        }
-        .sidebar .closebtn {
-            position: absolute;
-            top: 10px;
-            left: 25px;
-            font-size: 36px;
-            cursor: pointer;
-            color: var(--primary-color);
-            border-bottom: none;
-        }
-
-        /* الزر العائم لفتح القائمة */
-        .openbtn-floating {
-            cursor: pointer;
-            background-color: var(--secondary-color);
-            color: white;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 2500;
-            box-shadow: 0 10px 25px rgba(199, 172, 37, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .openbtn-floating:hover {
-            background-color: #b59d22;
-            transform: scale(1.1);
-        }
+        .openbtn-floating { cursor: pointer; background-color: var(--secondary-color); color: white; width: 55px; height: 55px; border-radius: 50%; position: fixed; bottom: 25px; right: 25px; z-index: 2500; box-shadow: 0 10px 25px rgba(199, 172, 37, 0.4); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .openbtn-floating:hover { background-color: #b59d22; transform: scale(1.1); }
 
         /* نافذة حاسبة الزكاة */
-        .zakat-modal-container {
-            display: none; 
-            position: fixed; 
-            z-index: 3500; 
-            left: 0; top: 0; width: 100%; height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.6); 
-            backdrop-filter: blur(4px);
-        }
-        .zakat-modal-content {
-            background-color: #f9f9f9;
-            margin: 5% auto; 
-            padding: 25px;
-            border-radius: 25px;
-            width: 95%;
-            max-width: 800px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            position: relative;
-        }
-        .zakat-close-modal {
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .zakat-modal-container { display: none; position: fixed; z-index: 3500; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+        .zakat-modal-content { background-color: #f9f9f9; margin: 5% auto; padding: 25px; border-radius: 25px; width: 95%; max-width: 800px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; }
+        .zakat-close-modal { color: #aaa; font-size: 28px; font-weight: bold; position: absolute; top: 15px; left: 20px; cursor: pointer; transition: 0.2s; }
         .zakat-close-modal:hover { color: #000; }
     </style>
 </head>
@@ -227,13 +94,8 @@
     <div id="aboutModal" class="fixed inset-0 bg-black/70 z-[110] hidden items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
             <div class="bg-primary p-6 text-white flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-info-circle text-xl text-[#C7AC25]"></i>
-                    <h2 class="text-xl font-black">من نحن</h2>
-                </div>
-                <button onclick="toggleAbout()" class="text-white/50 hover:text-white">
-                    <i class="fas fa-times-circle text-2xl"></i>
-                </button>
+                <div class="flex items-center gap-3"><i class="fas fa-info-circle text-xl text-[#C7AC25]"></i><h2 class="text-xl font-black">من نحن</h2></div>
+                <button onclick="toggleAbout()" class="text-white/50 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
             </div>
             <div class="p-8 max-h-[70vh] overflow-y-auto no-scrollbar">
                 <div class="text-center mb-6">
@@ -242,17 +104,11 @@
                 </div>
                 <div class="space-y-6">
                     <div class="bg-slate-50 p-4 rounded-2xl border-r-4 border-primary">
-                        <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-2">
-                            <i class="fas fa-fingerprint text-primary text-xs"></i> هويتنا
-                        </h4>
-                        <p class="text-slate-600 text-sm leading-relaxed">
-                            نحن المحرك التنظيمي لمركز محافظة الفروانية، نؤمن بأن العمل الخيري المؤسسي يبدأ من دقة الإجراء وينتهي بجودة المخرج.
-                        </p>
+                        <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-2"><i class="fas fa-fingerprint text-primary text-xs"></i> هويتنا</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">نحن المحرك التنظيمي لمركز محافظة الفروانية، نؤمن بأن العمل الخيري المؤسسي يبدأ من دقة الإجراء وينتهي بجودة المخرج.</p>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
-                            <i class="fas fa-star text-[#C7AC25] text-xs"></i> ركائزنا الأربعة
-                        </h4>
+                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2"><i class="fas fa-star text-[#C7AC25] text-xs"></i> ركائزنا الأربعة</h4>
                         <div class="grid grid-cols-1 gap-3 text-sm text-slate-600">
                             <div class="flex gap-3"><i class="fas fa-check-circle text-primary mt-1"></i><span><b>هيكلة العمل:</b> وضع الأطر التنظيمية والتوصيفات الدقيقة.</span></div>
                             <div class="flex gap-3"><i class="fas fa-check-circle text-primary mt-1"></i><span><b>الرقابة الذكية:</b> التدقيق لضمان السير على الطريق الصحيح.</span></div>
@@ -267,12 +123,9 @@
 
     <!-- رأس الصفحة (Header) -->
     <header class="bg-primary text-white p-6 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
-        
-        <!-- الأزرار العلوية المستقلة (تم الإصلاح هنا) -->
         <button onclick="toggleAbout()" class="glass-btn absolute left-6 top-6 px-4 py-2 rounded-xl text-[10px] font-bold flex items-center gap-2 z-20">
             <i class="fas fa-info-circle text-[#C7AC25]"></i> من نحن
         </button>
-        
         <button onclick="downloadPolicies()" class="glass-btn absolute left-32 top-6 px-4 py-2 rounded-xl text-[10px] font-bold flex items-center gap-2 z-20">
             <i class="fas fa-file-pdf text-[#C7AC25]"></i> دليل السياسات والإجراءات
         </button>
@@ -328,7 +181,6 @@
     <!-- شريط الأقسام (Categories) -->
     <div class="relative max-w-4xl mx-auto flex items-center px-2 py-6">
         <button onclick="scrollCats('right')" class="nav-scroll-btn ml-2" id="btnRight"><i class="fas fa-chevron-right text-primary text-sm"></i></button>
-        
         <div id="catContainer" class="flex gap-2 overflow-x-auto no-scrollbar scroll-smooth flex-grow">
             <button onclick="filterCategory('النماذج العامة')" class="cat-btn active bg-white text-slate-600 px-6 py-2 rounded-full whitespace-nowrap text-sm font-bold shadow-sm border border-slate-100">النماذج العامة</button>
             <button onclick="filterCategory('هياكل المركز')" class="cat-btn bg-white text-slate-600 px-6 py-2 rounded-full whitespace-nowrap text-sm font-bold shadow-sm border border-slate-100">هياكل مركز الفروانية</button>
@@ -337,23 +189,18 @@
             <button onclick="filterCategory('خطط الاقسام')" class="cat-btn bg-white text-slate-600 px-6 py-2 rounded-full whitespace-nowrap text-sm font-bold shadow-sm border border-slate-100">خطط الاقسام</button>
             <button onclick="filterCategory('إدارة عدم المطابقة')" class="cat-btn bg-white text-slate-600 px-6 py-2 rounded-full whitespace-nowrap text-sm font-bold shadow-sm border border-slate-100">إدارة عدم المطابقة</button>
         </div>
-
         <button onclick="scrollCats('left')" class="nav-scroll-btn mr-2" id="btnLeft"><i class="fas fa-chevron-left text-primary text-sm"></i></button>
     </div>
 
-    <!-- حاوية الملفات -->
     <main class="px-4 max-w-4xl mx-auto" id="filesContainer"></main>
 
-    <!-- ============================================== -->
-    <!-- ========== نافذة حاسبة الزكاة (مدمجة) ========== -->
-    <!-- ============================================== -->
+    <!-- ========== نافذة حاسبة الزكاة ========== -->
     <div id="zakatModal" class="zakat-modal-container">
         <div class="zakat-modal-content">
             <span class="zakat-close-modal" onclick="closeZakat()">&times;</span>
             <div id="zakat-calculator-section">
                 <h1 class="text-3xl font-bold text-primary mb-2 text-center">حاسبة الزكاة</h1>
                 <p id="loading-prices" class="text-center text-gray-500 mb-8 text-sm italic">جارٍ فحص حالة الأسعار المحدثة...</p>
-
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
                     <div class="flex justify-between items-center mb-2">
                         <label for="money" class="label-style mb-0">زكاة المال:</label>
@@ -361,77 +208,31 @@
                     </div>
                     <input type="number" id="money" oninput="updateLiveZakat()" class="w-full p-4 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-600 focus:outline-none text-xl" placeholder="0.000">
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="label-style mb-0">ذهب عيار 24</label>
-                            <span id="g24-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <input type="number" id="gold24" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                <input type="number" id="gold24-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
-                            </div>
-                        </div>
+                        <div class="flex justify-between items-center mb-2"><label class="label-style mb-0">ذهب عيار 24</label><span id="g24-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span></div>
+                        <div class="flex items-center gap-3"><input type="number" id="gold24" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن"><div class="flex flex-col items-center"><span class="text-xs text-gray-400 mb-1">سعر الجرام</span><input type="number" id="gold24-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001"></div></div>
                     </div>
-
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="label-style mb-0">ذهب عيار 21</label>
-                            <span id="g21-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <input type="number" id="gold21" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                <input type="number" id="gold21-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
-                            </div>
-                        </div>
+                        <div class="flex justify-between items-center mb-2"><label class="label-style mb-0">ذهب عيار 21</label><span id="g21-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span></div>
+                        <div class="flex items-center gap-3"><input type="number" id="gold21" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن"><div class="flex flex-col items-center"><span class="text-xs text-gray-400 mb-1">سعر الجرام</span><input type="number" id="gold21-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001"></div></div>
                     </div>
-
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="label-style mb-0">ذهب عيار 18</label>
-                            <span id="g18-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <input type="number" id="gold18" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                <input type="number" id="gold18-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
-                            </div>
-                        </div>
+                        <div class="flex justify-between items-center mb-2"><label class="label-style mb-0">ذهب عيار 18</label><span id="g18-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span></div>
+                        <div class="flex items-center gap-3"><input type="number" id="gold18" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن"><div class="flex flex-col items-center"><span class="text-xs text-gray-400 mb-1">سعر الجرام</span><input type="number" id="gold18-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001"></div></div>
                     </div>
-
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="label-style mb-0">الفضة</label>
-                            <span id="silver-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <input type="number" id="silver" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
-                            <div class="flex flex-col items-center">
-                                <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                <input type="number" id="silver-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
-                            </div>
-                        </div>
+                        <div class="flex justify-between items-center mb-2"><label class="label-style mb-0">الفضة</label><span id="silver-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span></div>
+                        <div class="flex items-center gap-3"><input type="number" id="silver" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن"><div class="flex flex-col items-center"><span class="text-xs text-gray-400 mb-1">سعر الجرام</span><input type="number" id="silver-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001"></div></div>
                     </div>
                 </div>
-
                 <button onclick="calculateZakat()" class="w-full btn-primary-zakat p-4 rounded-xl text-xl font-bold shadow-lg">احسب الزكاة الإجمالية</button>
-
                 <div id="result" class="mt-8"></div>
             </div>
         </div>
     </div>
 
-    <!-- ============================================== -->
     <!-- ========== نوافذ نظام إدارة عدم المطابقة (NCR) ========== -->
-    <!-- ============================================== -->
-    
-    <!-- نافذة خيارات عدم المطابقة -->
     <div id="ncrOptionsModal" class="fixed inset-0 bg-black/70 z-[200] hidden items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl">
             <div class="bg-primary p-5 text-white flex justify-between items-center">
@@ -440,24 +241,15 @@
             </div>
             <div class="p-6 space-y-4">
                 <button id="newNcrBtn" class="w-full text-right bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-4 transition flex items-center gap-3">
-                    <i class="fas fa-plus-circle text-green-700 text-2xl"></i>
-                    <div>
-                        <div class="font-bold text-lg">نموذج عدم مطابقة جديد</div>
-                        <div class="text-sm text-gray-500">تسجيل حالة عدم مطابقة (NCR)</div>
-                    </div>
+                    <i class="fas fa-plus-circle text-green-700 text-2xl"></i><div><div class="font-bold text-lg">نموذج عدم مطابقة جديد</div><div class="text-sm text-gray-500">تسجيل حالة عدم مطابقة (NCR)</div></div>
                 </button>
                 <button id="reportsBtn" class="w-full text-right bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-4 transition flex items-center gap-3">
-                    <i class="fas fa-chart-bar text-blue-700 text-2xl"></i>
-                    <div>
-                        <div class="font-bold text-lg">تقارير حالات عدم المطابقة</div>
-                        <div class="text-sm text-gray-500">عرض جميع الحالات السابقة</div>
-                    </div>
+                    <i class="fas fa-chart-bar text-blue-700 text-2xl"></i><div><div class="font-bold text-lg">تقارير حالات عدم المطابقة</div><div class="text-sm text-gray-500">عرض جميع الحالات السابقة</div></div>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تعبئة النموذج -->
     <div id="ncrModal" class="fixed inset-0 bg-black/80 z-[210] hidden items-center justify-center p-4 backdrop-blur-sm overflow-auto">
         <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl relative" style="max-height: 90vh; overflow-y: auto;">
             <div class="sticky top-0 bg-primary p-3 text-white flex justify-between items-center rounded-t-2xl">
@@ -468,7 +260,6 @@
         </div>
     </div>
 
-    <!-- نافذة تقارير الحالات -->
     <div id="reportsModal" class="fixed inset-0 bg-black/80 z-[220] hidden items-center justify-center p-4 backdrop-blur-sm overflow-auto">
         <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl relative" style="max-height: 90vh; overflow-y: auto;">
             <div class="sticky top-0 bg-primary p-3 text-white flex justify-between items-center rounded-t-2xl">
@@ -497,30 +288,41 @@
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- ========== أكواد الجافاسكريبت (مدمجة) ========== -->
-    <!-- ============================================== -->
+    <!-- نافذة المدير (مدمجة هنا) لمعالجة الـ NCR -->
+    <div id="managerModal" class="fixed inset-0 bg-black/90 z-[300] hidden items-center justify-center p-4 backdrop-blur-md overflow-auto">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl relative" style="max-height: 95vh; overflow-y: auto;">
+            <div class="sticky top-0 bg-red-800 p-4 text-white flex justify-between items-center rounded-t-2xl">
+                <h3 class="font-bold text-lg"><i class="fas fa-user-shield ml-2"></i> بوابة معالجة عدم المطابقة (المدير)</h3>
+                <button onclick="closeManagerModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
+            </div>
+            <div class="p-6" id="managerContent">
+                <!-- المحتوى يولد هنا عبر الجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- دوال الواجهة الرئيسية ---
-        function toggleAbout() {
-            document.getElementById("aboutModal").classList.toggle("modal-active");
-        }
+        // الرابط الموحد لقاعدة البيانات (Google Sheets)
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec";
 
-        function downloadPolicies() {
-            // قم بتبديل الرابط التالي برابط ملف الـ PDF الحقيقي
-            window.open('https://drive.google.com/your-policy-link', '_blank');
-        }
-
-        function scrollCats(direction) {
-            const container = document.getElementById("catContainer");
-            if (direction === "left") {
-                container.scrollLeft -= 200;
-            } else {
-                container.scrollLeft += 200;
+        // ============================================
+        // فحص الرابط تلقائياً لفتح نافذة المدير
+        // ============================================
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ncrId = urlParams.get('id');
+            if (ncrId && ncrId.startsWith('NCR-')) {
+                openManagerView(ncrId);
             }
-        }
+        });
 
-        // --- قاعدة البيانات (جميع الملفات الـ 69) ---
+        // ============================================
+        // دوال الواجهة الرئيسية والملفات (69 ملف)
+        // ============================================
+        function toggleAbout() { document.getElementById("aboutModal").classList.toggle("modal-active"); }
+        function downloadPolicies() { window.open('https://drive.google.com/your-policy-link', '_blank'); }
+        function scrollCats(direction) { const c = document.getElementById("catContainer"); c.scrollLeft += direction === "left" ? -200 : 200; }
+
         const filesData =[
             { id: 301, name: "الهيكل الاداري للاشراف الفني والاداري", category: "هياكل المركز", url: "https://drive.google.com/file/d/1eOyLDol2jSEj4z4CLorCo2r7ZO2VWqGI/preview", type: "structure" },
             { id: 302, name: "الهيكل التنظيمي", category: "هياكل المركز", url: "https://drive.google.com/file/d/1aSN2jvUaPpmKYeufXqGLUPfd9EmT6jZe/preview", type: "structure" },
@@ -595,12 +397,7 @@
 
         let currentCategory = "النماذج العامة";
 
-        function toggleDashboard() {
-            const modal = document.getElementById("dashboardModal");
-            updateStats();
-            modal.classList.toggle("modal-active");
-        }
-
+        function toggleDashboard() { const m = document.getElementById("dashboardModal"); updateStats(); m.classList.toggle("modal-active"); }
         function updateStats() {
             const grid = document.getElementById("statsGrid");
             const stats =[
@@ -608,38 +405,22 @@
                 { title: "توصيفات الاقسام", icon: "fa-building", color: "text-green-600" },
                 { title: "التوصيفات الوظيفية", icon: "fa-user-tie", color: "text-orange-500" },
                 { title: "خطط الاقسام", icon: "fa-tasks", color: "text-purple-600" },
-                { title: "هياكل المركز", icon: "fa-sitemap", color: "text-yellow-600" }
+                { title: "هياكل المركز", icon: "fa-sitemap", color: "text-yellow-600" },
             ];
             grid.innerHTML = "";
             stats.forEach((item) => {
                 const count = filesData.filter((f) => f.category === item.title).length;
-                grid.innerHTML += `
-                    <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 text-center">
-                        <i class="fas ${item.icon} ${item.color} text-xl mb-2"></i>
-                        <div class="text-2xl font-black text-slate-800">${count}</div>
-                        <div class="text-[9px] font-bold text-slate-400 uppercase">${item.title}</div>
-                    </div>`;
+                grid.innerHTML += `<div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 text-center"><i class="fas ${item.icon} ${item.color} text-xl mb-2"></i><div class="text-2xl font-black text-slate-800">${count}</div><div class="text-[9px] font-bold text-slate-400 uppercase">${item.title}</div></div>`;
             });
         }
 
         function renderFiles() {
             const container = document.getElementById("filesContainer");
-            const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+            const term = document.getElementById("searchInput").value.trim().toLowerCase();
             container.innerHTML = "";
-            let filtered;
+            let filtered = term === "" ? filesData.filter((f) => f.category === currentCategory) : filesData.filter((f) => f.name.toLowerCase().includes(term) || f.category.toLowerCase().includes(term));
             
-            if (searchTerm === "") {
-                filtered = filesData.filter((f) => f.category === currentCategory);
-            } else {
-                filtered = filesData.filter(
-                    (f) => f.name.toLowerCase().includes(searchTerm) || f.category.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="text-center py-10 text-slate-400 font-bold">لا توجد نتائج تطابق بحثك</div>';
-                return;
-            }
+            if (filtered.length === 0) { container.innerHTML = '<div class="text-center py-10 text-slate-400 font-bold">لا توجد نتائج تطابق بحثك</div>'; return; }
             
             filtered.forEach((file) => {
                 const isDownload = file.url.includes("export=download");
@@ -653,88 +434,47 @@
                     <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm mb-4 flex items-center justify-between transition hover:shadow-md animate-in fade-in slide-in-from-bottom-2 duration-300">
                         <div class="flex items-center gap-4 text-right">
                             <div class="${iconBg} w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas ${icon} ${iconColor} text-xl"></i></div>
-                            <div>
-                                 <h3 class="font-bold text-slate-800 text-sm">${file.name}</h3>
-                                 <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold">${file.category}</span>
-                            </div>
+                            <div><h3 class="font-bold text-slate-800 text-sm">${file.name}</h3><span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold">${file.category}</span></div>
                         </div>
-                        <a href="${file.url}" target="_blank" class="${btnColor} text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition hover:scale-110">
-                            <i class="fas ${actionIcon} text-xs"></i>
-                        </a>
+                        <a href="${file.url}" target="_blank" class="${btnColor} text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition hover:scale-110"><i class="fas ${actionIcon} text-xs"></i></a>
                     </div>`;
             });
         }
 
-        function filterFiles() {
-            renderFiles();
-        }
-
+        function filterFiles() { renderFiles(); }
         window.onload = renderFiles;
 
-        // --- دوال حاسبة الزكاة ---
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-
-        function showZakat() {
-            document.getElementById("zakatModal").style.display = "block";
-            closeNav();
-            fetchMetalPrices(); 
-        }
-
-        function closeZakat() {
-            document.getElementById("zakatModal").style.display = "none";
-        }
-
-        // إغلاق النافذة عند النقر خارجها
-        window.onclick = function(event) {
-            let modal = document.getElementById("zakatModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+        // ============================================
+        // دوال حاسبة الزكاة
+        // ============================================
+        function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
+        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+        function showZakat() { document.getElementById("zakatModal").style.display = "block"; closeNav(); fetchMetalPrices(); }
+        function closeZakat() { document.getElementById("zakatModal").style.display = "none"; }
 
         const STORAGE_KEY = "zakat_metal_data";
-
         async function fetchMetalPrices() {
             const loadingText = document.getElementById('loading-prices');
-            const now = new Date();
-            const todayDate = now.toISOString().split('T')[0];
+            const now = new Date(); const todayDate = now.toISOString().split('T')[0];
             const storedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
             if (storedData && storedData.date === todayDate) {
                 applyPrices(storedData.prices);
                 loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} (يمكنك تعديلها يدوياً)`;
-                loadingText.classList.replace('text-gray-500', 'text-green-600');
-                return;
+                loadingText.classList.replace('text-gray-500', 'text-green-600'); return;
             }
 
             try {
                 const headers = { "x-access-token": "goldapi-2podhqsmo5yvfh5-io", "Content-Type": "application/json" };
                 const goldRes = await fetch('https://www.goldapi.io/api/XAU/KWD', { headers });
                 const silverRes = await fetch('https://www.goldapi.io/api/XAG/KWD', { headers });
-
                 const goldData = await goldRes.json();
                 const silverData = await silverRes.json();
 
                 if(goldData.price) {
                     const baseGold = goldData.price / 31.1035;
-                    const prices = {
-                        g24: baseGold.toFixed(3),
-                        g21: (baseGold * 0.875).toFixed(3),
-                        g18: (baseGold * 0.75).toFixed(3),
-                        silver: (silverData.price / 31.1035).toFixed(3)
-                    };
-
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                        date: todayDate,
-                        prices: prices
-                    }));
-
+                    const prices = { g24: baseGold.toFixed(3), g21: (baseGold * 0.875).toFixed(3), g18: (baseGold * 0.75).toFixed(3), silver: (silverData.price / 31.1035).toFixed(3) };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: todayDate, prices: prices }));
                     applyPrices(prices);
                     loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} (يمكنك تعديلها يدوياً)`;
                     loadingText.classList.replace('text-gray-500', 'text-green-600');
@@ -746,61 +486,41 @@
             }
         }
 
-        function applyPrices(prices) {
-            document.getElementById('gold24-price').value = prices.g24;
-            document.getElementById('gold21-price').value = prices.g21;
-            document.getElementById('gold18-price').value = prices.g18;
-            document.getElementById('silver-price').value = prices.silver;
-        }
-
+        function applyPrices(p) { document.getElementById('gold24-price').value = p.g24; document.getElementById('gold21-price').value = p.g21; document.getElementById('gold18-price').value = p.g18; document.getElementById('silver-price').value = p.silver; }
+        
         function updateLiveZakat() {
-            const money = parseFloat(document.getElementById('money').value) || 0;
-            const g24W = parseFloat(document.getElementById('gold24').value) || 0;
-            const g21W = parseFloat(document.getElementById('gold21').value) || 0;
-            const g18W = parseFloat(document.getElementById('gold18').value) || 0;
-            const silW = parseFloat(document.getElementById('silver').value) || 0;
+            const m = parseFloat(document.getElementById('money').value) || 0;
+            const g24 = parseFloat(document.getElementById('gold24').value) || 0; const p24 = parseFloat(document.getElementById('gold24-price').value) || 0;
+            const g21 = parseFloat(document.getElementById('gold21').value) || 0; const p21 = parseFloat(document.getElementById('gold21-price').value) || 0;
+            const g18 = parseFloat(document.getElementById('gold18').value) || 0; const p18 = parseFloat(document.getElementById('gold18-price').value) || 0;
+            const sil = parseFloat(document.getElementById('silver').value) || 0; const pSil = parseFloat(document.getElementById('silver-price').value) || 0;
 
-            const p24 = parseFloat(document.getElementById('gold24-price').value) || 0;
-            const p21 = parseFloat(document.getElementById('gold21-price').value) || 0;
-            const p18 = parseFloat(document.getElementById('gold18-price').value) || 0;
-            const pSil = parseFloat(document.getElementById('silver-price').value) || 0;
-
-            document.getElementById('money-zakat').innerText = `المستحق: ${(money * 0.025).toFixed(3)} د.ك`;
-            document.getElementById('g24-zakat').innerText = `المستحق: ${(g24W * p24 * 0.025).toFixed(3)}`;
-            document.getElementById('g21-zakat').innerText = `المستحق: ${(g21W * p21 * 0.025).toFixed(3)}`;
-            document.getElementById('g18-zakat').innerText = `المستحق: ${(g18W * p18 * 0.025).toFixed(3)}`;
-            document.getElementById('silver-zakat').innerText = `المستحق: ${(silW * pSil * 0.025).toFixed(3)}`;
+            document.getElementById('money-zakat').innerText = `المستحق: ${(m * 0.025).toFixed(3)} د.ك`;
+            document.getElementById('g24-zakat').innerText = `المستحق: ${(g24 * p24 * 0.025).toFixed(3)}`;
+            document.getElementById('g21-zakat').innerText = `المستحق: ${(g21 * p21 * 0.025).toFixed(3)}`;
+            document.getElementById('g18-zakat').innerText = `المستحق: ${(g18 * p18 * 0.025).toFixed(3)}`;
+            document.getElementById('silver-zakat').innerText = `المستحق: ${(sil * pSil * 0.025).toFixed(3)}`;
         }
 
         function calculateZakat() {
-            const money = parseFloat(document.getElementById('money').value) || 0;
-            const gold24Weight = parseFloat(document.getElementById('gold24').value) || 0;
-            const gold21Weight = parseFloat(document.getElementById('gold21').value) || 0;
-            const gold18Weight = parseFloat(document.getElementById('gold18').value) || 0;
-            const silverWeight = parseFloat(document.getElementById('silver').value) || 0;
-
-            const p24 = parseFloat(document.getElementById('gold24-price').value) || 0;
-            const p21 = parseFloat(document.getElementById('gold21-price').value) || 0;
-            const p18 = parseFloat(document.getElementById('gold18-price').value) || 0;
-            const pSilver = parseFloat(document.getElementById('silver-price').value) || 0;
-
-            const totalValue = money + (gold24Weight * p24) + (gold21Weight * p21) + (gold18Weight * p18) + (silverWeight * pSilver);
-            const zakatAmount = totalValue * 0.025;
-
-            let resultDiv = document.getElementById('result');
+            const m = parseFloat(document.getElementById('money').value) || 0;
+            const g24 = parseFloat(document.getElementById('gold24').value) || 0; const p24 = parseFloat(document.getElementById('gold24-price').value) || 0;
+            const g21 = parseFloat(document.getElementById('gold21').value) || 0; const p21 = parseFloat(document.getElementById('gold21-price').value) || 0;
+            const g18 = parseFloat(document.getElementById('gold18').value) || 0; const p18 = parseFloat(document.getElementById('gold18-price').value) || 0;
+            const sil = parseFloat(document.getElementById('silver').value) || 0; const pSil = parseFloat(document.getElementById('silver-price').value) || 0;
             
-            resultDiv.innerHTML = `
-                <div class="bg-green-50 border-r-8 border-green-600 p-6 rounded-lg shadow-md text-right mt-4">
-                    <p class="text-2xl font-bold text-primary italic">إجمالي الزكاة المستحقة هي: ${zakatAmount.toFixed(3)} د.ك</p>
-                </div>
-            `;
+            const total = m + (g24 * p24) + (g21 * p21) + (g18 * p18) + (sil * pSil);
+            document.getElementById('result').innerHTML = `<div class="bg-green-50 border-r-8 border-green-600 p-6 rounded-lg shadow-md text-right mt-4"><p class="text-2xl font-bold text-primary italic">إجمالي الزكاة المستحقة هي: ${(total * 0.025).toFixed(3)} د.ك</p></div>`;
         }
 
-        // --- دوال نظام عدم المطابقة NCR ---
+        // ============================================
+        // نظام إدارة عدم المطابقة (NCR)
+        // ============================================
         function openNcrOptionsModal() { document.getElementById('ncrOptionsModal').classList.add('modal-active'); }
         function closeNcrOptionsModal() { document.getElementById('ncrOptionsModal').classList.remove('modal-active'); }
         function closeNcrModal() { document.getElementById('ncrModal').classList.remove('modal-active'); }
         function closeReportsModal() { document.getElementById('reportsModal').classList.remove('modal-active'); }
+        function closeManagerModal() { document.getElementById('managerModal').classList.remove('modal-active'); }
 
         function loadNCRForm() {
             const container = document.getElementById('ncrContent');
@@ -809,10 +529,8 @@
                     <style>
                         .ncr-wrapper .form-group { margin-bottom: 15px; }
                         .ncr-wrapper label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
-                        .ncr-wrapper input, .ncr-wrapper select, .ncr-wrapper textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: 'Noto Sans Arabic', sans-serif; }
-                        .ncr-wrapper .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
-                        .ncr-wrapper .btn-save { background: #097834; }
-                        .ncr-wrapper .locked { background-color: #f0f0f0 !important; cursor: not-allowed; border: 1px solid #ccc !important; color: #555 !important; pointer-events: none; }
+                        .ncr-wrapper input, .ncr-wrapper select, .ncr-wrapper textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: 'Noto Sans Arabic', sans-serif; }
+                        .ncr-wrapper .locked { background-color: #f0f0f0 !important; cursor: not-allowed; border: 1px solid #ccc !important; color: #555 !important; }
                     </style>
                     <div id="ncrForm">
                         <div class="form-group"><label>رقم الحالة (ID):</label><input type="text" id="ncrId" class="locked" readonly></div>
@@ -821,7 +539,7 @@
                         <div class="form-group"><label>مصدر الحالة:</label><select id="ncrSource"><option value="شكوى">شكوى</option><option value="تدقيق داخلي">تدقيق داخلي</option><option value="ملاحظة">ملاحظة</option><option value="تحليل بيانات">تحليل بيانات</option></select></div>
                         <div class="form-group"><label>مستوى الخطورة:</label><select id="ncrRisk"><option value="منخفضة">منخفضة</option><option value="متوسطة">متوسطة</option><option value="عالية">عالية</option></select></div>
                         <div class="form-group"><label>وصف عدم المطابقة:</label><textarea id="ncrDesc" rows="3" placeholder="اشرح حالة عدم المطابقة هنا..."></textarea></div>
-                        <button id="saveNcrBtn" class="btn btn-save">💾 حفظ وإرسال إلى الجهة المعنية</button>
+                        <button id="saveNcrBtn" class="w-full bg-[#097834] text-white p-4 rounded-lg font-bold text-lg mt-2 shadow-lg hover:bg-green-800 transition">💾 حفظ وإرسال إلى الجهة المعنية</button>
                     </div>
                 </div>
             `;
@@ -831,9 +549,7 @@
 
         function generateDepartmentOptions() {
             const depts =["قسم الرعاية الاجتماعية", "قسم حلقات تحفيظ القرآن", "قسم الارشيف", "قسم الاستقبال", "قسم الاستقطاعات", "قسم الاشراف الفني", "قسم الاشراف الاداري", "قسم الاعلامية والتسويق", "قسم ضبط الجودة", "قسم الدعم الفني", "قسم الكلمة الطيبة", "قسم اللجنة العلمية", "قسم المشاريع", "قسم النشء والشباب"];
-            let options = '<option value="">-- اختر القسم --</option>';
-            depts.forEach(d => options += `<option value="${d}">${d}</option>`);
-            return options;
+            return '<option value="">-- اختر القسم --</option>' + depts.map(d => `<option value="${d}">${d}</option>`).join('');
         }
 
         async function saveNCR() {
@@ -843,18 +559,20 @@
             const source = document.getElementById('ncrSource').value;
             const risk = document.getElementById('ncrRisk').value;
             const desc = document.getElementById('ncrDesc').value;
-            if (!auditor || !desc) { alert("الرجاء تعبئة اسم مقدم الحالة والوصف."); return; }
-            if (!department) { alert("الرجاء اختيار القسم."); return; }
+            if (!auditor || !desc || !department) { alert("الرجاء تعبئة جميع البيانات المطلوبة."); return; }
+            
             const btn = document.getElementById('saveNcrBtn');
             btn.disabled = true; btn.innerText = "⏳ جاري الحفظ...";
-            const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec"; 
-            const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
+            
+            // رابط الموقع الحالي ديناميكياً لإرساله في الواتساب
+            const managerPortalURL = window.location.href.split('?')[0];
             const payload = { id, auditor, department, source, risk, desc, rootCause: "", action: "", manager: "" };
+            
             try {
-                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                btn.innerText = "⏳ جاري التوجيه...";
+                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                btn.innerText = "⏳ جاري التوجيه للواتساب...";
                 const shortPageUrl = `${managerPortalURL}?id=${id}`;
-                const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nمقدم الحالة: ${auditor}\nالقسم: ${department}\nالوصف: ${desc}\n---\n*يرجى الرد عبر الرابط:*\n${shortPageUrl}`;
+                const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nمقدم الحالة: ${auditor}\nالقسم: ${department}\nالوصف: ${desc}\n---\n*يرجى معالجة الحالة عبر الرابط التالي:*\n${shortPageUrl}`;
                 window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
             } catch(err) { alert("حدث خطأ أثناء الحفظ."); btn.disabled = false; btn.innerText = "💾 حفظ وإرسال"; }
         }
@@ -865,75 +583,138 @@
             const loadingDiv = document.getElementById('reportsLoading');
             const tableContainer = document.getElementById('reportsTableContainer');
             const tbody = document.getElementById('reportsTableBody');
-            loadingDiv.style.display = 'block';
-            tableContainer.style.display = 'none';
-            const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec";
+            loadingDiv.style.display = 'block'; tableContainer.style.display = 'none';
+            
             try {
                 const response = await fetch(`${scriptURL}?action=list`);
                 const data = await response.json();
                 if (data && data.length) {
-                    tbody.innerHTML = '';
-                    data.forEach(record => {
-                        const row = `<tr class="border-b hover:bg-gray-50">
-                            <td class="px-4 py-2">${record.id || ''}</td>
-                            <td class="px-4 py-2">${record.department || ''}</td>
-                            <td class="px-4 py-2">${record.auditor || ''}</td>
-                            <td class="px-4 py-2">${record.created || ''}</td>
-                            <td class="px-4 py-2">${record.risk || ''}</td>
-                            <td class="px-4 py-2"><span class="px-2 py-1 rounded-full text-xs ${record.status === 'مغلق' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${record.status || 'قيد المعالجة'}</span></td>
-                            <td class="px-4 py-2"><button onclick="viewNCRDetails('${record.id}')" class="bg-primary text-white px-3 py-1 rounded-lg text-sm">عرض التفاصيل</button></td>
-                        </tr>`;
-                        tbody.innerHTML += row;
-                    });
-                    loadingDiv.style.display = 'none';
-                    tableContainer.style.display = 'block';
-                } else {
-                    loadingDiv.innerHTML = '⚠️ لا توجد حالات مسجلة بعد.';
-                }
-            } catch (err) {
-                loadingDiv.innerHTML = '❌ حدث خطأ في تحميل البيانات.';
-            }
+                    tbody.innerHTML = data.map(r => `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-2">${r.id || ''}</td>
+                            <td class="px-4 py-2">${r.department || ''}</td>
+                            <td class="px-4 py-2">${r.auditor || ''}</td>
+                            <td class="px-4 py-2">${r.created || ''}</td>
+                            <td class="px-4 py-2">${r.risk || ''}</td>
+                            <td class="px-4 py-2"><span class="px-2 py-1 rounded-full text-xs ${r.status === 'مغلق' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${r.status || 'قيد المعالجة'}</span></td>
+                            <td class="px-4 py-2"><button onclick="viewNCRDetails('${r.id}')" class="bg-primary text-white px-3 py-1 rounded-lg text-sm">معالجة / تفاصيل</button></td>
+                        </tr>`).join('');
+                    loadingDiv.style.display = 'none'; tableContainer.style.display = 'block';
+                } else { loadingDiv.innerHTML = '⚠️ لا توجد حالات مسجلة بعد.'; }
+            } catch (err) { loadingDiv.innerHTML = '❌ حدث خطأ في تحميل البيانات.'; }
         }
 
         function viewNCRDetails(id) {
             closeReportsModal();
-            const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
-            window.open(`${managerPortalURL}?id=${id}`, '_blank');
+            openManagerView(id); // استدعاء دالة المدير المدمجة
         }
 
-        function openReportsModal() {
-            closeNcrOptionsModal();
-            document.getElementById('reportsModal').classList.add('modal-active');
-            loadReports();
+        function openReportsModal() { closeNcrOptionsModal(); document.getElementById('reportsModal').classList.add('modal-active'); loadReports(); }
+
+        // ============================================
+        // بوابة معالجة المدير (Manager Portal Logic)
+        // ============================================
+        async function openManagerView(id) {
+            document.getElementById('managerModal').classList.add('modal-active');
+            const container = document.getElementById('managerContent');
+            container.innerHTML = '<div class="text-center py-10">⏳ جاري جلب تفاصيل الحالة من قاعدة البيانات...</div>';
+
+            try {
+                const response = await fetch(`${scriptURL}?action=list`);
+                const data = await response.json();
+                const record = data.find(r => r.id === id);
+
+                if (!record) {
+                    container.innerHTML = '<div class="text-center py-10 text-red-600 font-bold">❌ لم يتم العثور على الحالة المطلوبة!</div>';
+                    return;
+                }
+
+                const isClosed = record.status === 'مغلق';
+
+                container.innerHTML = `
+                    <div class="space-y-4 text-right">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <p class="text-sm text-gray-500 mb-3 border-b pb-2">تفاصيل المشكلة (NCR):</p>
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div><span class="font-bold text-gray-700">رقم الحالة:</span> <span class="text-primary font-bold">${record.id}</span></div>
+                                <div><span class="font-bold text-gray-700">القسم:</span> <span>${record.department}</span></div>
+                                <div><span class="font-bold text-gray-700">مقدم الحالة:</span> <span>${record.auditor}</span></div>
+                                <div><span class="font-bold text-gray-700">الخطورة:</span> <span class="text-red-500 font-bold">${record.risk}</span></div>
+                            </div>
+                            <div class="mt-4">
+                                <span class="font-bold text-gray-700 block mb-1">وصف عدم المطابقة:</span>
+                                <div class="p-3 bg-white border rounded-lg text-sm">${record.desc}</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-1 text-sm text-red-800">السبب الجذري (Root Cause):</label>
+                            <textarea id="mgrRootCause" rows="2" class="w-full p-3 border rounded-lg" ${isClosed ? 'readonly' : ''}>${record.rootCause || ''}</textarea>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-sm text-red-800">الإجراء التصحيحي (Corrective Action):</label>
+                            <textarea id="mgrAction" rows="2" class="w-full p-3 border rounded-lg" ${isClosed ? 'readonly' : ''}>${record.action || ''}</textarea>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-1 text-sm text-red-800">اسم المسؤول المعتمد:</label>
+                            <input type="text" id="mgrName" class="w-full p-3 border rounded-lg" value="${record.manager || ''}" ${isClosed ? 'readonly' : ''}>
+                        </div>
+
+                        ${isClosed ? 
+                            '<div class="text-center p-4 bg-green-100 text-green-800 font-bold rounded-lg border border-green-200">✅ تم إغلاق هذه الحالة مسبقاً</div>' 
+                            : 
+                            `<button id="updateNcrBtn" onclick="updateNCR('${record.id}', '${record.auditor}', '${record.department}', '${record.source}', '${record.risk}', '${record.desc}')" class="w-full bg-red-800 text-white p-4 rounded-lg font-bold text-lg mt-2 shadow-lg hover:bg-red-900 transition">💾 إعتماد الإجراء وإغلاق الحالة</button>`
+                        }
+                    </div>
+                `;
+            } catch (err) {
+                container.innerHTML = '<div class="text-center py-10 text-red-600 font-bold">❌ حدث خطأ في الاتصال بقاعدة البيانات.</div>';
+            }
         }
 
-        // ربط أزرار NCR
+        async function updateNCR(id, auditor, department, source, risk, desc) {
+            const rootCause = document.getElementById('mgrRootCause').value.trim();
+            const action = document.getElementById('mgrAction').value.trim();
+            const manager = document.getElementById('mgrName').value.trim();
+
+            if (!rootCause || !action || !manager) {
+                alert("الرجاء تعبئة السبب الجذري، الإجراء التصحيحي، واسم المسؤول قبل الإغلاق.");
+                return;
+            }
+
+            const btn = document.getElementById('updateNcrBtn');
+            btn.disabled = true; btn.innerText = "⏳ جاري التحديث والإغلاق...";
+
+            const payload = { id, auditor, department, source, risk, desc, rootCause, action, manager };
+
+            try {
+                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                alert("✅ تم إغلاق الحالة بنجاح.");
+                closeManagerModal();
+                
+                // إذا كان المدير قد دخل عبر الرابط، نقوم بتنظيف الرابط ليعود للصفحة الرئيسية
+                if(window.location.search.includes("id=")) {
+                    window.location.href = window.location.href.split('?')[0];
+                }
+            } catch(err) {
+                alert("❌ حدث خطأ أثناء التحديث.");
+                btn.disabled = false; btn.innerText = "💾 إعتماد الإجراء وإغلاق الحالة";
+            }
+        }
+
+        // ربط الأزرار
         document.getElementById('newNcrBtn')?.addEventListener('click', openNCRModalWithForm);
         document.getElementById('reportsBtn')?.addEventListener('click', openReportsModal);
 
-        // تعديل دالة filterCategory لتتوافق مع NCR
-        if (typeof window.originalFilterCategory === 'undefined') {
-            window.originalFilterCategory = window.filterCategory;
-        }
-        
         window.filterCategory = function(cat) {
-            if (cat === "عمليات التدقيق الداخلي" || cat === "إدارة عدم المطابقة") {
-                openNcrOptionsModal();
-                return;
-            }
-            
-            // الوظيفة الأصلية
+            if (cat === "عمليات التدقيق الداخلي" || cat === "إدارة عدم المطابقة") { openNcrOptionsModal(); return; }
             currentCategory = cat;
             document.getElementById("searchInput").value = "";
             document.querySelectorAll(".cat-btn").forEach((btn) => {
-                btn.classList.toggle(
-                    "active",
-                    btn.innerText.trim() === cat || (cat === "هياكل المركز" && btn.innerText.includes("هياكل"))
-                );
+                btn.classList.toggle("active", btn.innerText.trim() === cat || (cat === "هياكل المركز" && btn.innerText.includes("هياكل")));
             });
             renderFiles();
         };
-
     </script>
 </body>
 </html>
