@@ -79,9 +79,6 @@
 </head>
 <body class="bg-slate-50 pb-24 text-right">
 
-    <!-- القائمة الجانبية وزر الفتح -->
-    <button class="openbtn-floating" onclick="openNav()" title="القائمة الجانبية">
-        <i class="fas fa-bars text-2xl"></i>
     </button>
 
     <div id="mySidebar" class="sidebar">
@@ -123,12 +120,7 @@
 
     <!-- رأس الصفحة (Header) -->
     <header class="bg-primary text-white p-6 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
-        <button onclick="toggleAbout()" class="glass-btn absolute left-6 top-6 px-4 py-2 rounded-xl text-[10px] font-bold flex items-center gap-2 z-20">
-            <i class="fas fa-info-circle text-[#C7AC25]"></i> من نحن
-        </button>
-        <button onclick="downloadPolicies()" class="glass-btn absolute left-32 top-6 px-4 py-2 rounded-xl text-[10px] font-bold flex items-center gap-2 z-20">
-            <i class="fas fa-file-pdf text-[#C7AC25]"></i> دليل السياسات والإجراءات
-        </button>
+      
 
         <div class="relative z-10 mt-10 sm:mt-0">
             <div class="flex items-center justify-between mb-8">
@@ -573,7 +565,7 @@
                 btn.innerText = "⏳ جاري التوجيه للواتساب...";
                 const shortPageUrl = `${managerPortalURL}?id=${id}`;
                 const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nمقدم الحالة: ${auditor}\nالقسم: ${department}\nالوصف: ${desc}\n---\n*يرجى معالجة الحالة عبر الرابط التالي:*\n${shortPageUrl}`;
-                window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
+                window.location.href = `https://wa.me/96596690217?text=${encodeURIComponent(msgText)}`;
             } catch(err) { alert("حدث خطأ أثناء الحفظ."); btn.disabled = false; btn.innerText = "💾 حفظ وإرسال"; }
         }
 
@@ -717,4 +709,34 @@
         };
     </script>
 </body>
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-5px_15px_rgba(0,0,0,0.1)] z-[5000] px-4 py-2 flex justify-around items-center">
+    
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex flex-col items-center text-primary group transition-all">
+        <i class="fas fa-home text-xl group-hover:scale-110"></i>
+        <span class="text-[11px] font-bold mt-1">الرئيسية</span>
+    </button>
+
+    <button onclick="showZakat()" class="flex flex-col items-center text-gray-500 hover:text-primary group transition-all">
+        <i class="fas fa-calculator text-xl group-hover:scale-110"></i>
+        <span class="text-[11px] font-bold mt-1">حاسبة الزكاة </span>
+    </button>
+
+    <button onclick="downloadPolicies()" class="flex flex-col items-center text-gray-500 hover:text-primary group transition-all">
+        <i class="fas fa-file-pdf text-xl group-hover:scale-110"></i>
+        <span class="text-[11px] font-bold mt-1">دليل السياسات والاجراءات</span>
+    </button>
+
+    <button onclick="toggleAbout()" class="flex flex-col items-center text-gray-500 hover:text-primary group transition-all">
+        <i class="fas fa-info-circle text-xl group-hover:scale-110"></i>
+        <span class="text-[11px] font-bold mt-1">من نحن</span>
+    </button>
+
+    <button onclick="window.open('https://wa.me/965XXXXXXXX', '_blank')" class="flex flex-col items-center text-gray-500 hover:text-green-600 group transition-all">
+        <i class="fab fa-whatsapp text-xl group-hover:scale-110"></i>
+        <span class="text-[11px] font-bold mt-1">للتواصل</span>
+    </button>
+
+</div>
+
+<div class="h-24"></div>
 </html>
